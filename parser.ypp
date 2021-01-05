@@ -1,0 +1,91 @@
+%skeleton "lalr1.cc"
+%require "2.5"
+%defines
+%define api.namespace {Bool}
+%define parser_class_name {Parser}
+
+%code requires { 
+#include <iostream>
+#include <string>
+#include "string_util.hpp"
+#include "expression.hpp"
+#include "expression_maker.hpp"
+namespace Bool {class Lexer;}
+namespace Bool {class Expression;}
+}
+
+%parse-param {Bool::Lexer& lexer}
+%parse-param {Expression** result}
+
+%code {
+  #include "lexer.h"
+  
+  #define yylex lexer.lex
+}
+
+%union {
+    char* token;
+    Expression* expression;
+}
+
+
+%token <token> TOKEN_END 0
+%token <token> TOKEN_DYNAMIC_VAR
+%token <token> TOKEN_CONST_STR_VAR
+%token <token> TOKEN_CONST_NUM_VAR
+%token <token> TOKEN_LOGIC_OP_AND
+%token <token> TOKEN_LOGIC_OP_OR
+%token <token> TOKEN_LOGIC_OP_NOT
+%token <token> TOKEN_RELATION_OP_EQ
+%token <token> TOKEN_RELATION_OP_NE
+%token <token> TOKEN_RELATION_OP_GT
+%token <token> TOKEN_RELATION_OP_GTE
+%token <token> TOKEN_RELATION_OP_LT
+%token <token> TOKEN_RELATION_OP_LTE
+%token <token> TOKEN_LPAREN
+%token <token> TOKEN_RPAREN
+
+
+%left TOKEN_LOGIC_OP_AND
+%left TOKEN_LOGIC_OP_OR
+%left TOKEN_RELATION_OP_EQ TOKEN_RELATION_OP_NE TOKEN_RELATION_OP_GT TOKEN_RELATION_OP_GTE TOKEN_RELATION_OP_LT TOKEN_RELATION_OP_LTE
+%left TOKEN_LOGIC_OP_NOT
+%left UNOT
+
+
+%type <expression> expr
+
+%%
+
+input
+    : expr {*result = $1; std::cout<<"final result"<<std::endl;}
+    ;
+
+expr
+    : TOKEN_CONST_STR_VAR                 { $$ = ExpressionMaker::MakeConstExpression<std::string>(std::string($1), StringUtil::Trim(std::string($1), "\"")); std::cout<<"Const:"<<$1<<std::endl;}
+    | TOKEN_CONST_NUM_VAR                 { $$ = ExpressionMaker::MakeConstExpression<std::string>(std::string($1), std::string($1)); std::cout<<"Const:"<<$1<<std::endl;}
+    | TOKEN_DYNAMIC_VAR                   { $$ = ExpressionMaker::MakeParameterExpression(std::string($1)); std::cout<<"Parameter:"<<$1<<std::endl;}
+    | expr TOKEN_LOGIC_OP_AND expr        { $$ = ExpressionMaker::MakeAndAlsoExpression(std::string($2), $1, $3); std::cout<<"AndAlso:"<<$2<<std::endl; }
+    | expr TOKEN_LOGIC_OP_OR expr         { $$ = ExpressionMaker::MakeOrElseExpression(std::string($2), $1, $3); std::cout<<"OrElse:"<<$2<<std::endl; }
+    | TOKEN_LOGIC_OP_NOT expr %prec UNOT  { $$ = ExpressionMaker::MakeNotExpression(std::string($1), $2);  std::cout<<"Not:"<<$1<<std::endl;}
+    | expr TOKEN_RELATION_OP_EQ expr      { $$ = ExpressionMaker::MakeEqualExpression(std::string($2), $1, $3); std::cout<<"Equal:"<<$2<<std::endl;}
+    | expr TOKEN_RELATION_OP_NE expr      { $$ = ExpressionMaker::MakeNotEqualExpression(std::string($2), $1, $3); std::cout<<"NotEqual:"<<$2<<std::endl; }
+    | expr TOKEN_RELATION_OP_GT expr      { $$ = ExpressionMaker::MakeGreaterThanExpression(std::string($2), $1, $3); std::cout<<"GreaterThan:"<<$2<<std::endl; }
+    | expr TOKEN_RELATION_OP_GTE expr     { $$ = ExpressionMaker::MakeGreaterThanOrEqualExpression(std::string($2), $1, $3); std::cout<<"GreaterThanOrEqual:"<<$2<<std::endl; }
+    | expr TOKEN_RELATION_OP_LT expr      { $$ = ExpressionMaker::MakeLessThanExpression(std::string($2), $1, $3); std::cout<<"LessThan:"<<$2<<std::endl; }
+    | expr TOKEN_RELATION_OP_LTE expr     { $$ = ExpressionMaker::MakeLessThanOrEqualExpression(std::string($2), $1, $3); std::cout<<"LessThanOrEqual:"<<$2<<std::endl; }
+    | TOKEN_LPAREN expr TOKEN_RPAREN      { $$ = $2; }
+    ;
+	
+%%
+
+void yyerror (char const *s)
+{
+  fprintf (stderr, "%s\n", s);
+}
+
+void error(const std::string& msg)
+{
+  std::cerr << "error message: " << msg << '\n';
+}
+
