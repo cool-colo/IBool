@@ -171,8 +171,7 @@ namespace Bool {
         TOKEN_RELATION_OP_LT = 268,
         TOKEN_RELATION_OP_LTE = 269,
         TOKEN_LPAREN = 270,
-        TOKEN_RPAREN = 271,
-        UNOT = 272
+        TOKEN_RPAREN = 271
       };
     };
 
@@ -460,7 +459,7 @@ namespace Bool {
       yyfinal_ = 10, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 18  ///< Number of tokens.
+      yyntokens_ = 17  ///< Number of tokens.
     };
 
 
@@ -472,7 +471,7 @@ namespace Bool {
 
 #line 4 "parser.ypp" // lalr1.cc:372
 } // Bool
-#line 476 "parser.tab.hpp" // lalr1.cc:372
+#line 475 "parser.tab.hpp" // lalr1.cc:372
 
 
 

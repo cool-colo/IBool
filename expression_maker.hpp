@@ -21,6 +21,13 @@ struct ExpressionMaker{
   static Expression* MakeLogicBinaryExpression(ExpressionType et, std::string&& key, Expression* left, Expression* right){
     return new EX(et, std::move(key), std::shared_ptr<Expression>{left}, std::shared_ptr<Expression>{right});
   }
+
+  template<typename EX>
+  static Expression* MakeUnaryExpression(ExpressionType et, std::string&& key, Expression* expr){
+    return new EX(et, std::move(key), std::shared_ptr<Expression>{expr});
+  }
+
+  
   template<typename DT>
   static Expression* MakeConstExpression(const std::string& key, const DT& data){
     return new ConstantExpression<DT>(ExpressionType::Constant, key, data);
@@ -57,8 +64,8 @@ struct ExpressionMaker{
   static Expression* MakeOrElseExpression(std::string&& key, Expression* left, Expression* right){
     return MakeLogicBinaryExpression<OrElseExpression>(ExpressionType::OrElse, std::move(key), left, right);
   }
-  static Expression* MakeNotExpression(std::string&& key, Expression* expression){
-    return MakeLogicBinaryExpression<OrElseExpression>(ExpressionType::OrElse, std::move(key), expression, expression);
+  static Expression* MakeNotExpression(std::string&& key, Expression* expr){
+    return MakeUnaryExpression<NotExpression>(ExpressionType::Not, std::move(key), expr);
   }
 
 

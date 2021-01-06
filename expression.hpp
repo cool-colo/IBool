@@ -13,6 +13,7 @@ enum ExpressionType{
 
   AndAlso,
   OrElse,
+  Not,
 
   Equal,  
   NotEqual,
@@ -70,6 +71,7 @@ class ConstantExpression : public Expression{
 
 
 
+
 template<typename T>
 class ParameterExpression : public Expression{
   public:
@@ -86,6 +88,28 @@ class ParameterExpression : public Expression{
   protected:
     typename DataGetterFun<T>::type fun;
 };
+
+class UnaryExpression : public Expression{
+  public:
+    UnaryExpression(ExpressionType et, const std::string& key, ExpSharedPtr e): expr(e), Expression(et,key){};
+    UnaryExpression(ExpressionType et, std::string&& key, ExpSharedPtr e): expr(e), Expression(et,std::move(key)){};
+    bool GetResult(const Context& context){
+    }
+    std::string Print() override {
+      return GetKey() + expr->Print();
+    }
+  protected:
+    ExpSharedPtr expr;
+};
+
+class NotExpression : public UnaryExpression{
+  public:
+    using UnaryExpression::UnaryExpression;
+    bool GetResult(const Context& context){
+      return !(expr->GetResult(context));
+    }
+};
+
 
 class BinaryExpression : public Expression{
   public:

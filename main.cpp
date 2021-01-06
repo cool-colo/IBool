@@ -29,7 +29,7 @@ int main()
 
   Bool::Context& context = custom_context;
 
-  std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && random < 50 xxx)";
+  std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && random < 50 || !random < 50)";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
   Bool::Expression* expression;
