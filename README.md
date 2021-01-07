@@ -24,6 +24,8 @@
   std::cout<<"print:"<<expression->Print()<<std::endl;  
   std::cout<<"final result:"<<expression->GetResult(custom_context)<<std::endl;  
   std::cout<<"parse result:"<<res<<std::endl;  
+  
+main.cpp中还增加了与sol的执行效率对比  
 
 参考文档:  
 https://www.gnu.org/software/bison/manual/bison.html#Bison-Parser  
