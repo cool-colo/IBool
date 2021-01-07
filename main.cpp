@@ -1,5 +1,9 @@
 #include "lexer.h" 
 #include "custom_define.h"
+#include <fstream>
+#include <sstream>
+#include "sol/sol.hpp"
+#include <chrono>
 
 
 namespace Bool{
@@ -16,6 +20,32 @@ public:
   } 
 };
 }
+
+
+int test_lua() {
+	sol::state lua;
+	lua.open_libraries(sol::lib::base);
+
+	lua.set("media_index", 30);
+	lua["src_id"] = "308";
+	lua["app_version"] = "10.5";
+	lua["random"] = 30;
+
+        /*
+        std::ifstream f("luac.out", std::ios::binary | std::ios::in);
+        std::stringstream ss;
+        ss << f.rdbuf();
+        std::string buff = ss.str();
+        */
+        
+        std::string formular = R"(return media_index == 30 and (src_id == "308" or app_version == "10.5") and (random < 50 or not(random < 50)))";
+        auto s = std::chrono::steady_clock::now();
+        for (int i = 0; i < 100; i ++){
+          bool res = lua.script(formular);
+        }
+        std::cout<<"time lua:"<<std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - s).count()<<std::endl;
+}
+
 int main()
 {
   srand(::time(nullptr));
@@ -25,7 +55,6 @@ int main()
   custom_context.app_version.minor = 6;
   custom_context.src_id = "308";
   custom_context.random = rand()%100;
-  std::cout<<"random:"<<custom_context.random<<std::endl;
 
   Bool::Context& context = custom_context;
 
@@ -38,4 +67,11 @@ int main()
   std::cout<<"print:"<<expression->Print()<<std::endl;
   std::cout<<"final result:"<<expression->GetResult(custom_context)<<std::endl;
   std::cout<<"parse result:"<<res<<std::endl;
+
+  auto s = std::chrono::steady_clock::now();
+  for (int i = 0; i < 100; i ++){
+    bool res = expression->GetResult(custom_context);
+  }
+  std::cout<<"time express tree:"<<std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - s).count()<<std::endl;
+  test_lua();
 }

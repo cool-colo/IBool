@@ -1,0 +1,4 @@
+index = 30
+src_id = "308"
+random = 40
+return  index == 30 and (src_id == "308" or app_version == "10.5") and (random < 50 or not(random < 50))
