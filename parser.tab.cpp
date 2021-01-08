@@ -517,91 +517,85 @@ namespace Bool {
           switch (yyn)
             {
   case 2:
-#line 60 "parser.ypp" // lalr1.cc:847
+#line 62 "parser.ypp" // lalr1.cc:847
     {*result = (yystack_[0].value.expression); std::cout<<"final result"<<std::endl;}
 #line 523 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 3:
-#line 64 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeConstExpression<std::string>(std::string((yystack_[0].value.token)), StringUtil::Trim(std::string((yystack_[0].value.token)), "\"")); std::cout<<"Const:"<<(yystack_[0].value.token)<<std::endl;}
+#line 66 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeAndAlsoExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"AndAlso:"<<(yystack_[1].value.token)<<std::endl; }
 #line 529 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 4:
-#line 65 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeConstExpression<std::string>(std::string((yystack_[0].value.token)), std::string((yystack_[0].value.token))); std::cout<<"Const:"<<(yystack_[0].value.token)<<std::endl;}
+#line 67 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeOrElseExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"OrElse:"<<(yystack_[1].value.token)<<std::endl; }
 #line 535 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 5:
-#line 66 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeParameterExpression(std::string((yystack_[0].value.token))); std::cout<<"Parameter:"<<(yystack_[0].value.token)<<std::endl;}
+#line 68 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeNotExpression(std::string((yystack_[1].value.token)), (yystack_[0].value.expression));  std::cout<<"Not:"<<(yystack_[1].value.token)<<std::endl;}
 #line 541 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 6:
-#line 67 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeAndAlsoExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"AndAlso:"<<(yystack_[1].value.token)<<std::endl; }
+#line 69 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"Equal:"<<(yystack_[1].value.token)<<std::endl;}
 #line 547 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 7:
-#line 68 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeOrElseExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"OrElse:"<<(yystack_[1].value.token)<<std::endl; }
+#line 70 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeNotEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"NotEqual:"<<(yystack_[1].value.token)<<std::endl; }
 #line 553 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 8:
-#line 69 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeNotExpression(std::string((yystack_[1].value.token)), (yystack_[0].value.expression));  std::cout<<"Not:"<<(yystack_[1].value.token)<<std::endl;}
+#line 71 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeGreaterThanExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"GreaterThan:"<<(yystack_[1].value.token)<<std::endl; }
 #line 559 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 9:
-#line 70 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeEqualExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"Equal:"<<(yystack_[1].value.token)<<std::endl;}
+#line 72 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeGreaterThanOrEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"GreaterThanOrEqual:"<<(yystack_[1].value.token)<<std::endl; }
 #line 565 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 10:
-#line 71 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeNotEqualExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"NotEqual:"<<(yystack_[1].value.token)<<std::endl; }
+#line 73 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeLessThanExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"LessThan:"<<(yystack_[1].value.token)<<std::endl; }
 #line 571 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 11:
-#line 72 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeGreaterThanExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"GreaterThan:"<<(yystack_[1].value.token)<<std::endl; }
+#line 74 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeLessThanOrEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"LessThanOrEqual:"<<(yystack_[1].value.token)<<std::endl; }
 #line 577 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 12:
-#line 73 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeGreaterThanOrEqualExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"GreaterThanOrEqual:"<<(yystack_[1].value.token)<<std::endl; }
+#line 75 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeInExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"In:"<<(yystack_[1].value.token)<<std::endl; }
 #line 583 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 13:
-#line 74 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeLessThanExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"LessThan:"<<(yystack_[1].value.token)<<std::endl; }
+#line 76 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = ExpressionMaker::MakeNotInExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"NotIn:"<<(yystack_[1].value.token)<<std::endl; }
 #line 589 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 14:
-#line 75 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeLessThanOrEqualExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"LessThanOrEqual:"<<(yystack_[1].value.token)<<std::endl; }
+#line 77 "parser.ypp" // lalr1.cc:847
+    { (yylhs.value.expression) = (yystack_[1].value.expression); }
 #line 595 "parser.tab.cpp" // lalr1.cc:847
     break;
 
-  case 15:
-#line 76 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = (yystack_[1].value.expression); }
-#line 601 "parser.tab.cpp" // lalr1.cc:847
-    break;
 
-
-#line 605 "parser.tab.cpp" // lalr1.cc:847
+#line 599 "parser.tab.cpp" // lalr1.cc:847
             default:
               break;
             }
@@ -763,80 +757,76 @@ namespace Bool {
   }
 
 
-  const signed char Parser::yypact_ninf_ = -5;
+  const signed char Parser::yypact_ninf_ = -4;
 
   const signed char Parser::yytable_ninf_ = -1;
 
   const signed char
   Parser::yypact_[] =
   {
-      12,    -5,    -5,    -5,    12,    12,     2,    30,    44,    19,
-      -5,    12,    12,    12,    12,    12,    12,    12,    12,    -5,
-      38,    44,    -5,    -5,    -5,    -5,    -5,    -5
+       0,    13,     0,     0,     2,    -1,     7,     8,     9,    10,
+      14,    15,    25,    26,    -4,     3,    -4,     0,     0,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -3,    -4
   };
 
   const unsigned char
   Parser::yydefact_[] =
   {
-       0,     5,     3,     4,     0,     0,     0,     2,     8,     0,
-       1,     0,     0,     0,     0,     0,     0,     0,     0,    15,
-       6,     7,     9,    10,    11,    12,    13,    14
+       0,     0,     0,     0,     0,     2,     0,     0,     0,     0,
+       0,     0,     0,     0,     5,     0,     1,     0,     0,     6,
+       7,     8,     9,    10,    11,    12,    13,    14,     3,     4
   };
 
   const signed char
   Parser::yypgoto_[] =
   {
-      -5,    -5,    -4
+      -4,    -4,    -2
   };
 
   const signed char
   Parser::yydefgoto_[] =
   {
-      -1,     6,     7
+      -1,     4,     5
   };
 
   const unsigned char
   Parser::yytable_[] =
   {
-       8,     9,    10,     0,     0,     0,     0,    20,    21,    22,
-      23,    24,    25,    26,    27,     1,     2,     3,     0,     0,
-       4,     0,     0,     0,     0,    11,    12,     5,    13,    14,
-      15,    16,    17,    18,     0,    19,    11,    12,     0,    13,
-      14,    15,    16,    17,    18,    12,     0,    13,    14,    15,
-      16,    17,    18,    13,    14,    15,    16,    17,    18
+      14,    15,    16,     1,    18,    17,    18,     0,     2,    17,
+      18,    19,    20,    21,    22,    28,    29,     3,    23,    24,
+       0,    27,     6,     7,     8,     9,    10,    11,    12,    13,
+      25,    26
   };
 
   const signed char
   Parser::yycheck_[] =
   {
-       4,     5,     0,    -1,    -1,    -1,    -1,    11,    12,    13,
-      14,    15,    16,    17,    18,     3,     4,     5,    -1,    -1,
-       8,    -1,    -1,    -1,    -1,     6,     7,    15,     9,    10,
-      11,    12,    13,    14,    -1,    16,     6,     7,    -1,     9,
-      10,    11,    12,    13,    14,     7,    -1,     9,    10,    11,
-      12,    13,    14,     9,    10,    11,    12,    13,    14
+       2,     3,     0,     3,     7,     6,     7,    -1,     8,     6,
+       7,     4,     4,     4,     4,    17,    18,    17,     4,     4,
+      -1,    18,     9,    10,    11,    12,    13,    14,    15,    16,
+       5,     5
   };
 
   const unsigned char
   Parser::yystos_[] =
   {
-       0,     3,     4,     5,     8,    15,    18,    19,    19,    19,
-       0,     6,     7,     9,    10,    11,    12,    13,    14,    16,
-      19,    19,    19,    19,    19,    19,    19,    19
+       0,     3,     8,    17,    20,    21,     9,    10,    11,    12,
+      13,    14,    15,    16,    21,    21,     0,     6,     7,     4,
+       4,     4,     4,     4,     4,     5,     5,    18,    21,    21
   };
 
   const unsigned char
   Parser::yyr1_[] =
   {
-       0,    17,    18,    19,    19,    19,    19,    19,    19,    19,
-      19,    19,    19,    19,    19,    19
+       0,    19,    20,    21,    21,    21,    21,    21,    21,    21,
+      21,    21,    21,    21,    21
   };
 
   const unsigned char
   Parser::yyr2_[] =
   {
-       0,     2,     1,     1,     1,     1,     3,     3,     2,     3,
-       3,     3,     3,     3,     3,     3
+       0,     2,     1,     3,     3,     2,     3,     3,     3,     3,
+       3,     3,     3,     3,     3
   };
 
 
@@ -847,19 +837,20 @@ namespace Bool {
   const Parser::yytname_[] =
   {
   "TOKEN_END", "error", "$undefined", "TOKEN_DYNAMIC_VAR",
-  "TOKEN_CONST_STR_VAR", "TOKEN_CONST_NUM_VAR", "TOKEN_LOGIC_OP_AND",
+  "TOKEN_CONST_VAR", "TOKEN_CONST_LIST", "TOKEN_LOGIC_OP_AND",
   "TOKEN_LOGIC_OP_OR", "TOKEN_LOGIC_OP_NOT", "TOKEN_RELATION_OP_EQ",
   "TOKEN_RELATION_OP_NE", "TOKEN_RELATION_OP_GT", "TOKEN_RELATION_OP_GTE",
-  "TOKEN_RELATION_OP_LT", "TOKEN_RELATION_OP_LTE", "TOKEN_LPAREN",
-  "TOKEN_RPAREN", "$accept", "input", "expr", YY_NULLPTR
+  "TOKEN_RELATION_OP_LT", "TOKEN_RELATION_OP_LTE", "TOKEN_RELATION_OP_IN",
+  "TOKEN_RELATION_OP_NIN", "TOKEN_LPAREN", "TOKEN_RPAREN", "$accept",
+  "input", "expr", YY_NULLPTR
   };
 
 
   const unsigned char
   Parser::yyrline_[] =
   {
-       0,    60,    60,    64,    65,    66,    67,    68,    69,    70,
-      71,    72,    73,    74,    75,    76
+       0,    62,    62,    66,    67,    68,    69,    70,    71,    72,
+      73,    74,    75,    76,    77
   };
 
   // Print the state stack on the debug stream.
@@ -927,9 +918,9 @@ namespace Bool {
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16
+      15,    16,    17,    18
     };
-    const unsigned int user_token_number_max_ = 271;
+    const unsigned int user_token_number_max_ = 273;
     const token_number_type undef_token_ = 2;
 
     if (static_cast<int>(t) <= yyeof_)
@@ -942,8 +933,8 @@ namespace Bool {
 
 #line 4 "parser.ypp" // lalr1.cc:1155
 } // Bool
-#line 946 "parser.tab.cpp" // lalr1.cc:1155
-#line 79 "parser.ypp" // lalr1.cc:1156
+#line 937 "parser.tab.cpp" // lalr1.cc:1155
+#line 81 "parser.ypp" // lalr1.cc:1156
 
 
 void yyerror (char const *s)

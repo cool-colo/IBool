@@ -21,6 +21,8 @@ enum ExpressionType{
   GreaterThanOrEqual,
   LessThan,
   LessThanOrEqual,
+  In,
+  NotIn,
 };
 
 struct Context{
@@ -77,7 +79,7 @@ class ParameterExpression : public Expression{
   public:
     ParameterExpression(ExpressionType et, std::string&& k, typename DataGetterFun<T>::type&& f):fun(std::move(f)), Expression(et, std::move(k)){ 
     };
-    ParameterExpression(ExpressionType et, const std::string& k, const typename DataGetterFun<T>::type f):fun(f), Expression(et, k){
+    ParameterExpression(ExpressionType et, const std::string& k, const typename DataGetterFun<T>::type& f):fun(f), Expression(et, k){
     };
     const T& GetValue(const Context& context){ 
       return fun(context);
@@ -211,6 +213,34 @@ class LessThanOrEqualExpression : public BinaryExpression{
       const T& left_value = left->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(left.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
       const T& right_value = right->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(right.get())->GetValue(context);
       return !(left_value > right_value);
+    }
+};
+
+template<typename T>
+class InExpression : public BinaryExpression{
+  public:
+    using DataType = T;
+    using BinaryExpression::BinaryExpression;
+    bool GetResult(const Context& context){
+      const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
+      const std::vector<T>& right_value = dynamic_cast<ConstantExpression<std::vector<T>>*>(right.get())->GetValue(context);
+      std::cout<<"in expression get result"<<std::endl;
+      for (const auto& value : right_value){
+        //std::cout<<"value in array:"<<value<<std::endl;
+      }
+      return std::any_of(std::begin(right_value), std::end(right_value), [&left_value](const auto& value) { return left_value == value; });
+    }
+};
+
+template<typename T>
+class NotInExpression : public BinaryExpression{
+  public:
+    using DataType = T;
+    using BinaryExpression::BinaryExpression;
+    bool GetResult(const Context& context){
+      const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
+      const std::vector<T>& right_value = dynamic_cast<ConstantExpression<std::vector<T>>*>(right.get())->GetValue(context);
+      return std::none_of(std::begin(right_value), std::end(right_value), [&left_value](const auto& value) { return left_value == value; });
     }
 };
 

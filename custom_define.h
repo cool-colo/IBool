@@ -57,6 +57,7 @@ struct AppVersion{
 
 
 
+
 //需要使用方按需提供
 struct CustomContext : public Bool::Context{
   std::string src_id;

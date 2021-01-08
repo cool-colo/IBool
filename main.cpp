@@ -9,6 +9,8 @@
 namespace Bool{
 
 
+
+
 void Parser::error(const std::string&msg){
   std::cout<<"parse error:"<<msg<<std::endl;
 }
@@ -57,21 +59,56 @@ int main()
   custom_context.random = rand()%100;
 
   Bool::Context& context = custom_context;
-
-  std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && random < 50 || !random < 50)";
+  {
+  std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && (random < 50 || !random < 50) && src_id in ["309", "400" ])";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
   Bool::Expression* expression;
   Bool::ASTParse parser(lexer, &expression);
   int res = parser.parse();
   std::cout<<"print:"<<expression->Print()<<std::endl;
-  std::cout<<"final result:"<<expression->GetResult(custom_context)<<std::endl;
-  std::cout<<"parse result:"<<res<<std::endl;
+  assert(expression->GetResult(custom_context) == false);
+  }
 
+  {
+  std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && (random < 50 || !random < 50) && src_id in ["308", "309", "400" ])";
+  std::cout<<formular<<std::endl;
+  Bool::Lexer lexer(formular);
+  Bool::Expression* expression;
+  Bool::ASTParse parser(lexer, &expression);
+  int res = parser.parse();
+  std::cout<<"print:"<<expression->Print()<<std::endl;
+  assert(expression->GetResult(custom_context) == true);
+  }
+
+  {
+  std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && (random < 50 || !random < 50) || src_id in ["309", "400" ])";
+  std::cout<<formular<<std::endl;
+  Bool::Lexer lexer(formular);
+  Bool::Expression* expression;
+  Bool::ASTParse parser(lexer, &expression);
+  int res = parser.parse();
+  std::cout<<"print:"<<expression->Print()<<std::endl;
+  assert(expression->GetResult(custom_context) == true);
+  }
+
+  {
+  std::string formular = R"(src_id == "308")";
+  std::cout<<formular<<std::endl;
+  Bool::Lexer lexer(formular);
+  Bool::Expression* expression;
+  Bool::ASTParse parser(lexer, &expression);
+  int res = parser.parse();
+  std::cout<<"print:"<<expression->Print()<<std::endl;
+  assert(expression->GetResult(custom_context) == true);
+  }
+
+/*
   auto s = std::chrono::steady_clock::now();
   for (int i = 0; i < 100; i ++){
     bool res = expression->GetResult(custom_context);
   }
   std::cout<<"time express tree:"<<std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - s).count()<<std::endl;
   test_lua();
+*/
 }

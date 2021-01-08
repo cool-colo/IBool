@@ -9,111 +9,153 @@
 #line 10 "lexer.c"
 static const char _Lexer_actions[] = {
 	0, 1, 0, 1, 2, 1, 3, 1, 
-	4, 1, 5, 1, 6, 1, 7, 1, 
-	8, 1, 9, 1, 10, 1, 11, 1, 
-	12, 1, 13, 1, 14, 1, 16, 1, 
-	17, 1, 18, 1, 19, 1, 20, 2, 
-	1, 15, 3, 0, 1, 15
+	4, 1, 8, 1, 9, 1, 10, 1, 
+	11, 1, 12, 1, 13, 1, 14, 1, 
+	15, 1, 16, 1, 17, 1, 18, 1, 
+	20, 1, 21, 1, 22, 1, 23, 1, 
+	24, 1, 25, 2, 1, 19, 2, 4, 
+	5, 2, 4, 6, 2, 4, 7
 };
 
-static const char _Lexer_key_offsets[] = {
-	0, 0, 1, 2, 4, 5, 6, 29, 
-	30, 33, 35, 37, 38, 45, 52, 61, 
-	70, 79, 86, 95
+static const unsigned char _Lexer_key_offsets[] = {
+	0, 0, 1, 2, 4, 5, 14, 21, 
+	22, 26, 28, 35, 37, 43, 45, 47, 
+	49, 51, 53, 55, 56, 84, 85, 88, 
+	90, 92, 93, 100, 109, 118, 127, 136, 
+	143, 152, 161, 170, 179
 };
 
 static const char _Lexer_trans_keys[] = {
-	34, 38, 48, 57, 61, 124, 32, 33, 
-	34, 38, 40, 41, 60, 61, 62, 70, 
-	84, 95, 102, 116, 124, 9, 10, 48, 
-	57, 65, 90, 97, 122, 61, 46, 48, 
-	57, 48, 57, 61, 62, 61, 95, 48, 
-	57, 65, 90, 97, 122, 95, 48, 57, 
+	34, 38, 48, 57, 61, 9, 32, 34, 
+	70, 84, 102, 116, 48, 57, 34, 70, 
+	84, 102, 116, 48, 57, 34, 9, 32, 
+	44, 93, 44, 93, 9, 32, 44, 46, 
+	93, 48, 57, 48, 57, 9, 32, 44, 
+	93, 48, 57, 65, 97, 76, 108, 83, 
+	115, 69, 101, 82, 114, 85, 117, 124, 
+	32, 33, 34, 38, 40, 41, 60, 61, 
+	62, 70, 73, 78, 84, 91, 95, 102, 
+	105, 110, 116, 124, 9, 10, 48, 57, 
+	65, 90, 97, 122, 61, 46, 48, 57, 
+	48, 57, 61, 62, 61, 95, 48, 57, 
 	65, 90, 97, 122, 65, 95, 97, 48, 
 	57, 66, 90, 98, 122, 76, 95, 108, 
 	48, 57, 65, 90, 97, 122, 83, 95, 
-	115, 48, 57, 65, 90, 97, 122, 95, 
-	48, 57, 65, 90, 97, 122, 82, 95, 
-	114, 48, 57, 65, 90, 97, 122, 85, 
-	95, 117, 48, 57, 65, 90, 97, 122, 
-	0
+	115, 48, 57, 65, 90, 97, 122, 69, 
+	95, 101, 48, 57, 65, 90, 97, 122, 
+	95, 48, 57, 65, 90, 97, 122, 78, 
+	95, 110, 48, 57, 65, 90, 97, 122, 
+	73, 95, 105, 48, 57, 65, 90, 97, 
+	122, 78, 95, 110, 48, 57, 65, 90, 
+	97, 122, 82, 95, 114, 48, 57, 65, 
+	90, 97, 122, 85, 95, 117, 48, 57, 
+	65, 90, 97, 122, 0
 };
 
 static const char _Lexer_single_lengths[] = {
-	0, 1, 1, 0, 1, 1, 15, 1, 
-	1, 0, 2, 1, 1, 1, 3, 3, 
-	3, 1, 3, 3
+	0, 1, 1, 0, 1, 7, 5, 1, 
+	4, 2, 5, 0, 4, 2, 2, 2, 
+	2, 2, 2, 1, 20, 1, 1, 0, 
+	2, 1, 1, 3, 3, 3, 3, 1, 
+	3, 3, 3, 3, 3
 };
 
 static const char _Lexer_range_lengths[] = {
-	0, 0, 0, 1, 0, 0, 4, 0, 
-	1, 1, 0, 0, 3, 3, 3, 3, 
-	3, 3, 3, 3
+	0, 0, 0, 1, 0, 1, 1, 0, 
+	0, 0, 1, 1, 1, 0, 0, 0, 
+	0, 0, 0, 0, 4, 0, 1, 1, 
+	0, 0, 3, 3, 3, 3, 3, 3, 
+	3, 3, 3, 3, 3
 };
 
-static const char _Lexer_index_offsets[] = {
-	0, 0, 2, 4, 6, 8, 10, 30, 
-	32, 35, 37, 40, 42, 47, 52, 59, 
-	66, 73, 78, 85
+static const unsigned char _Lexer_index_offsets[] = {
+	0, 0, 2, 4, 6, 8, 17, 24, 
+	26, 31, 34, 41, 43, 49, 52, 55, 
+	58, 61, 64, 67, 69, 94, 96, 99, 
+	101, 104, 106, 111, 118, 125, 132, 139, 
+	144, 151, 158, 165, 172
 };
 
 static const char _Lexer_indicies[] = {
 	1, 0, 2, 3, 5, 4, 6, 3, 
-	7, 3, 8, 9, 0, 10, 11, 12, 
-	14, 15, 16, 18, 19, 17, 18, 19, 
-	20, 8, 13, 17, 17, 3, 22, 21, 
-	24, 13, 23, 5, 23, 26, 22, 25, 
-	28, 27, 30, 30, 30, 30, 29, 32, 
-	32, 32, 32, 31, 33, 30, 33, 30, 
-	30, 30, 29, 34, 32, 34, 32, 32, 
-	32, 31, 35, 32, 35, 32, 32, 32, 
-	31, 32, 32, 32, 32, 31, 36, 30, 
-	36, 30, 30, 30, 29, 35, 32, 35, 
-	32, 32, 32, 31, 0
+	7, 7, 8, 10, 11, 10, 11, 9, 
+	3, 8, 10, 11, 10, 11, 9, 3, 
+	12, 8, 13, 13, 14, 15, 3, 14, 
+	15, 3, 13, 13, 14, 16, 15, 9, 
+	3, 17, 3, 13, 13, 14, 15, 17, 
+	3, 18, 18, 3, 19, 19, 3, 20, 
+	20, 3, 12, 12, 3, 21, 21, 3, 
+	20, 20, 3, 22, 3, 23, 24, 0, 
+	25, 26, 27, 29, 30, 31, 33, 34, 
+	35, 36, 14, 32, 33, 34, 35, 36, 
+	37, 23, 28, 32, 32, 3, 39, 38, 
+	41, 28, 40, 5, 40, 43, 39, 42, 
+	45, 44, 47, 47, 47, 47, 46, 48, 
+	47, 48, 47, 47, 47, 46, 49, 47, 
+	49, 47, 47, 47, 46, 50, 47, 50, 
+	47, 47, 47, 46, 51, 47, 51, 47, 
+	47, 47, 46, 47, 47, 47, 47, 52, 
+	53, 47, 53, 47, 47, 47, 46, 54, 
+	47, 54, 47, 47, 47, 46, 55, 47, 
+	55, 47, 47, 47, 46, 56, 47, 56, 
+	47, 47, 47, 46, 50, 47, 50, 47, 
+	47, 47, 46, 0
 };
 
 static const char _Lexer_trans_targs[] = {
-	1, 6, 6, 0, 6, 9, 6, 6, 
-	6, 7, 2, 6, 6, 8, 10, 4, 
-	11, 12, 14, 18, 5, 6, 6, 6, 
-	3, 6, 6, 6, 6, 6, 13, 6, 
-	13, 15, 16, 17, 19
+	1, 20, 20, 0, 20, 23, 20, 6, 
+	7, 10, 13, 17, 8, 9, 5, 20, 
+	11, 12, 14, 15, 16, 18, 20, 20, 
+	21, 2, 20, 20, 22, 24, 4, 25, 
+	26, 27, 32, 33, 35, 19, 20, 20, 
+	20, 3, 20, 20, 20, 20, 20, 26, 
+	28, 29, 30, 31, 20, 31, 34, 31, 
+	36
 };
 
 static const char _Lexer_trans_actions[] = {
-	0, 9, 11, 0, 37, 0, 15, 13, 
-	27, 0, 0, 23, 25, 7, 0, 0, 
-	0, 0, 0, 0, 0, 31, 17, 29, 
-	0, 35, 21, 33, 19, 42, 1, 39, 
-	0, 1, 0, 0, 1
+	0, 9, 13, 0, 39, 0, 17, 0, 
+	0, 0, 0, 0, 0, 0, 0, 11, 
+	0, 0, 0, 0, 0, 0, 15, 29, 
+	0, 0, 25, 27, 7, 0, 0, 0, 
+	1, 1, 1, 1, 1, 0, 33, 19, 
+	31, 0, 37, 23, 35, 21, 43, 0, 
+	0, 0, 0, 46, 41, 49, 0, 52, 
+	0
 };
 
 static const char _Lexer_to_state_actions[] = {
-	0, 0, 0, 0, 0, 0, 3, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0
+	0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 3, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0
 };
 
 static const char _Lexer_from_state_actions[] = {
-	0, 0, 0, 0, 0, 0, 5, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0
+	0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 5, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0
 };
 
-static const char _Lexer_eof_trans[] = {
-	0, 0, 0, 5, 0, 0, 0, 22, 
-	24, 24, 26, 28, 30, 32, 30, 32, 
-	32, 32, 30, 32
+static const unsigned char _Lexer_eof_trans[] = {
+	0, 0, 0, 5, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 39, 41, 41, 
+	43, 45, 47, 47, 47, 47, 47, 53, 
+	47, 47, 47, 47, 47
 };
 
-static const int Lexer_start = 6;
-static const int Lexer_first_final = 6;
+static const int Lexer_start = 20;
+static const int Lexer_first_final = 20;
 static const int Lexer_error = 0;
 
-static const int Lexer_en_main = 6;
+static const int Lexer_en_main = 20;
 
 
-#line 137 "lexer.rl"
+#line 155 "lexer.rl"
 
 
 Bool::Lexer::Lexer(const std::string& input):data(input), p(data.data()), pe(data.data() + data.length()), eof(data.data() + data.length()){
@@ -121,7 +163,7 @@ Bool::Lexer::Lexer(const std::string& input):data(input), p(data.data()), pe(dat
     return;
   }
   
-#line 125 "lexer.c"
+#line 167 "lexer.c"
 	{
 	cs = Lexer_start;
 	ts = 0;
@@ -129,7 +171,7 @@ Bool::Lexer::Lexer(const std::string& input):data(input), p(data.data()), pe(dat
 	act = 0;
 	}
 
-#line 144 "lexer.rl"
+#line 162 "lexer.rl"
 }
 
 
@@ -145,7 +187,7 @@ Bool::Parser::token_type Bool::Lexer::lex(Parser::semantic_type* val)
   }
 
   
-#line 149 "lexer.c"
+#line 191 "lexer.c"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -166,7 +208,7 @@ _resume:
 #line 1 "NONE"
 	{ts = p;}
 	break;
-#line 170 "lexer.c"
+#line 212 "lexer.c"
 		}
 	}
 
@@ -249,132 +291,179 @@ _eof_trans:
 	{te = p+1;}
 	break;
 	case 5:
-#line 49 "lexer.rl"
+#line 55 "lexer.rl"
+	{act = 2;}
+	break;
+	case 6:
+#line 110 "lexer.rl"
+	{act = 13;}
+	break;
+	case 7:
+#line 115 "lexer.rl"
+	{act = 14;}
+	break;
+	case 8:
+#line 55 "lexer.rl"
 	{te = p+1;{
-    std::cout<<"CONST_STR_VAR_ACTION"<<std::endl;
-    ret = Parser::token::TOKEN_CONST_STR_VAR;
+    std::cout<<"CONST_VAR_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_CONST_VAR;
     {p++; goto _out; }
   }}
 	break;
-	case 6:
-#line 59 "lexer.rl"
+	case 9:
+#line 60 "lexer.rl"
+	{te = p+1;{
+    std::cout<<"CONST_LIST_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_CONST_LIST;
+    {p++; goto _out; }
+  }}
+	break;
+	case 10:
+#line 65 "lexer.rl"
 	{te = p+1;{
     std::cout<<"LOGIC_OP_AND_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_LOGIC_OP_AND;
     {p++; goto _out; }
   }}
 	break;
-	case 7:
-#line 64 "lexer.rl"
+	case 11:
+#line 70 "lexer.rl"
 	{te = p+1;{
     std::cout<<"LOGIC_OP_OR_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_LOGIC_OP_OR;
     {p++; goto _out; }
   }}
 	break;
-	case 8:
-#line 74 "lexer.rl"
+	case 12:
+#line 80 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RELATION_OP_EQ_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_EQ;
     {p++; goto _out; }
   }}
 	break;
-	case 9:
-#line 79 "lexer.rl"
+	case 13:
+#line 85 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RELATION_OP_NE_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_NE;
     {p++; goto _out; }
   }}
 	break;
-	case 10:
-#line 89 "lexer.rl"
+	case 14:
+#line 95 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RELATION_OP_GTE_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_GTE;
     {p++; goto _out; }
   }}
 	break;
-	case 11:
-#line 99 "lexer.rl"
+	case 15:
+#line 105 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RELATION_OP_LTE_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_LTE;
     {p++; goto _out; }
   }}
 	break;
-	case 12:
-#line 104 "lexer.rl"
+	case 16:
+#line 120 "lexer.rl"
 	{te = p+1;{
     std::cout<<"LPAREN_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_LPAREN;
     {p++; goto _out; }
   }}
 	break;
-	case 13:
-#line 109 "lexer.rl"
+	case 17:
+#line 125 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RPAREN_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RPAREN;
     {p++; goto _out; }
   }}
 	break;
-	case 14:
-#line 114 "lexer.rl"
+	case 18:
+#line 130 "lexer.rl"
 	{te = p+1;{
     std::cout<<"SPACE_ACTION"<<std::endl;
   }}
 	break;
-	case 15:
-#line 44 "lexer.rl"
+	case 19:
+#line 50 "lexer.rl"
 	{te = p;p--;{
     std::cout<<"DYNAMIC_VAR_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_DYNAMIC_VAR;
     {p++; goto _out; }
   }}
 	break;
-	case 16:
-#line 54 "lexer.rl"
+	case 20:
+#line 55 "lexer.rl"
 	{te = p;p--;{
-    std::cout<<"CONST_NUM_VAR_ACTION"<<std::endl;
-    ret = Parser::token::TOKEN_CONST_NUM_VAR;
+    std::cout<<"CONST_VAR_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_CONST_VAR;
     {p++; goto _out; }
   }}
 	break;
-	case 17:
-#line 69 "lexer.rl"
+	case 21:
+#line 75 "lexer.rl"
 	{te = p;p--;{
     std::cout<<"LOGIC_OP_NOT_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_LOGIC_OP_NOT;
     {p++; goto _out; }
   }}
 	break;
-	case 18:
-#line 84 "lexer.rl"
+	case 22:
+#line 90 "lexer.rl"
 	{te = p;p--;{
     std::cout<<"RELATION_OP_GT_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_GT;
     {p++; goto _out; }
   }}
 	break;
-	case 19:
-#line 94 "lexer.rl"
+	case 23:
+#line 100 "lexer.rl"
 	{te = p;p--;{
     std::cout<<"RELATION_OP_LT_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_LT;
     {p++; goto _out; }
   }}
 	break;
-	case 20:
-#line 54 "lexer.rl"
+	case 24:
+#line 55 "lexer.rl"
 	{{p = ((te))-1;}{
-    std::cout<<"CONST_NUM_VAR_ACTION"<<std::endl;
-    ret = Parser::token::TOKEN_CONST_NUM_VAR;
+    std::cout<<"CONST_VAR_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_CONST_VAR;
     {p++; goto _out; }
   }}
 	break;
-#line 378 "lexer.c"
+	case 25:
+#line 1 "NONE"
+	{	switch( act ) {
+	case 2:
+	{{p = ((te))-1;}
+    std::cout<<"CONST_VAR_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_CONST_VAR;
+    {p++; goto _out; }
+  }
+	break;
+	case 13:
+	{{p = ((te))-1;}
+    std::cout<<"RELATION_OP_IN_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_RELATION_OP_IN;
+    {p++; goto _out; }
+  }
+	break;
+	case 14:
+	{{p = ((te))-1;}
+    std::cout<<"RELATION_OP_NIN_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_RELATION_OP_NIN;
+    {p++; goto _out; }
+  }
+	break;
+	}
+	}
+	break;
+#line 467 "lexer.c"
 		}
 	}
 
@@ -387,7 +476,7 @@ _again:
 #line 1 "NONE"
 	{ts = 0;}
 	break;
-#line 391 "lexer.c"
+#line 480 "lexer.c"
 		}
 	}
 
@@ -407,7 +496,7 @@ _again:
 	_out: {}
 	}
 
-#line 159 "lexer.rl"
+#line 177 "lexer.rl"
 
   if (ret == Parser::token::TOKEN_END){
     const char* prefix = "syntax error:";

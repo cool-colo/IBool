@@ -16,13 +16,17 @@
   action leave_dynamic_expr {
     std::cout<<"leave_dynamic_expr:"<<std::endl;
   }
+  SPACE             = [ \t];
+  KEY_WORDS         = 'in'i | 'nin'i;
 
-  DYNAMIC_VAR      = [_A-Za-z][_A-Za-z0-9]* >enter_dynamic_expr %leave_dynamic_expr;
   CONST_STR_VAR    = '"' . (any - '"')* . '"';
   INTEGER_VAR      = digit+;
   FLOAT_VAR        = digit+ ('.' digit+)?;
   BOOL_VAR         = 'true'i | 'false'i;
   CONST_NUM_VAR    = INTEGER_VAR | FLOAT_VAR | BOOL_VAR;
+  CONST_VAR        = CONST_STR_VAR | CONST_NUM_VAR;
+  CONST_LIST       = '[' . SPACE? CONST_VAR (SPACE? ',' SPACE? CONST_VAR)* SPACE? . ']';
+  DYNAMIC_VAR      = ([_A-Za-z][_A-Za-z0-9]* - (KEY_WORDS | BOOL_VAR)) >enter_dynamic_expr %leave_dynamic_expr;
 
   LOGIC_OP_AND     = '&&';
   LOGIC_OP_OR      = '||';
@@ -34,6 +38,8 @@
   RELATION_OP_GTE  = '>=';
   RELATION_OP_LT   = '<';
   RELATION_OP_LTE  = '<=';
+  RELATION_OP_IN   = 'in'i;
+  RELATION_OP_NIN  = 'nin'i;
 
   LPAREN           = '(';
   RPAREN           = ')';
@@ -46,14 +52,14 @@
     ret = Parser::token::TOKEN_DYNAMIC_VAR;
     fbreak;
   }
-  action CONST_STR_VAR_ACTION {
-    std::cout<<"CONST_STR_VAR_ACTION"<<std::endl;
-    ret = Parser::token::TOKEN_CONST_STR_VAR;
+  action CONST_VAR_ACTION {
+    std::cout<<"CONST_VAR_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_CONST_VAR;
     fbreak;
   }
-  action CONST_NUM_VAR_ACTION {
-    std::cout<<"CONST_NUM_VAR_ACTION"<<std::endl;
-    ret = Parser::token::TOKEN_CONST_NUM_VAR;
+  action CONST_LIST_ACTION {
+    std::cout<<"CONST_LIST_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_CONST_LIST;
     fbreak;
   }
   action LOGIC_OP_AND_ACTION {
@@ -101,6 +107,16 @@
     ret = Parser::token::TOKEN_RELATION_OP_LTE;
     fbreak;
   }
+  action RELATION_OP_IN_ACTION {
+    std::cout<<"RELATION_OP_IN_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_RELATION_OP_IN;
+    fbreak;
+  }
+  action RELATION_OP_NIN_ACTION {
+    std::cout<<"RELATION_OP_NIN_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_RELATION_OP_NIN;
+    fbreak;
+  }
   action LPAREN_ACTION {
     std::cout<<"LPAREN_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_LPAREN;
@@ -118,8 +134,8 @@
   main := |*
 
     DYNAMIC_VAR     => DYNAMIC_VAR_ACTION;
-    CONST_STR_VAR   => CONST_STR_VAR_ACTION;
-    CONST_NUM_VAR   => CONST_NUM_VAR_ACTION;
+    CONST_VAR       => CONST_VAR_ACTION;
+    CONST_LIST      => CONST_LIST_ACTION;
     LOGIC_OP_AND    => LOGIC_OP_AND_ACTION;
     LOGIC_OP_OR     => LOGIC_OP_OR_ACTION;
     LOGIC_OP_NOT    => LOGIC_OP_NOT_ACTION;
@@ -129,6 +145,8 @@
     RELATION_OP_GTE => RELATION_OP_GTE_ACTION;
     RELATION_OP_LT  => RELATION_OP_LT_ACTION;
     RELATION_OP_LTE => RELATION_OP_LTE_ACTION;
+    RELATION_OP_IN  => RELATION_OP_IN_ACTION;
+    RELATION_OP_NIN => RELATION_OP_NIN_ACTION;
     LPAREN          => LPAREN_ACTION;
     RPAREN          => RPAREN_ACTION;
     WS              => SPACE_ACTION;
