@@ -757,7 +757,7 @@ namespace Bool {
   }
 
 
-  const signed char Parser::yypact_ninf_ = -4;
+  const signed char Parser::yypact_ninf_ = -3;
 
   const signed char Parser::yytable_ninf_ = -1;
 
@@ -765,8 +765,8 @@ namespace Bool {
   Parser::yypact_[] =
   {
        0,    13,     0,     0,     2,    -1,     7,     8,     9,    10,
-      14,    15,    25,    26,    -4,     3,    -4,     0,     0,    -4,
-      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -3,    -4
+      14,    15,    25,    26,    -3,     3,    -3,     0,     0,    -3,
+      -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,     1
   };
 
   const unsigned char
@@ -780,7 +780,7 @@ namespace Bool {
   const signed char
   Parser::yypgoto_[] =
   {
-      -4,    -4,    -2
+      -3,    -3,    -2
   };
 
   const signed char
@@ -792,7 +792,7 @@ namespace Bool {
   const unsigned char
   Parser::yytable_[] =
   {
-      14,    15,    16,     1,    18,    17,    18,     0,     2,    17,
+      14,    15,    16,     1,     0,    17,    18,    17,     2,    17,
       18,    19,    20,    21,    22,    28,    29,     3,    23,    24,
        0,    27,     6,     7,     8,     9,    10,    11,    12,    13,
       25,    26
@@ -801,7 +801,7 @@ namespace Bool {
   const signed char
   Parser::yycheck_[] =
   {
-       2,     3,     0,     3,     7,     6,     7,    -1,     8,     6,
+       2,     3,     0,     3,    -1,     6,     7,     6,     8,     6,
        7,     4,     4,     4,     4,    17,    18,    17,     4,     4,
       -1,    18,     9,    10,    11,    12,    13,    14,    15,    16,
        5,     5
