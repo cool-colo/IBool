@@ -1,6 +1,6 @@
 # IBool
 
-根据上下文，计算布尔表达式的值。 词发分析由ragel完成，语法分析由bison完成，计算由表达式树完成。  
+根据上下文，计算布尔表达式的值。 词法分析由ragel完成，语法分析由bison完成，计算由表达式树完成。  
 目前只支持 ==, !=(<>), <, <=, >, >=, ||, && 操作符  
 自定义类型比较需要重载相应操作符。  
 
@@ -24,6 +24,8 @@
   std::cout<<"print:"<<expression->Print()<<std::endl;  
   std::cout<<"final result:"<<expression->GetResult(custom_context)<<std::endl;  
   std::cout<<"parse result:"<<res<<std::endl;  
+  
+main.cpp中还增加了与sol的执行效率对比  
 
 参考文档:  
 https://www.gnu.org/software/bison/manual/bison.html#Bison-Parser  
