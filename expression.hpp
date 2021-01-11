@@ -55,12 +55,11 @@ class Expression{
 };
 
 
-
 template<typename T>
 class ConstantExpression : public Expression{
   public:
-    ConstantExpression(ExpressionType et, std::string&& k, T&& v):value(std::move(v)), Expression(et, std::move(k)){};
-    ConstantExpression(ExpressionType et, const std::string& k, const T& v):value(v), Expression(et, k){};
+    ConstantExpression(std::string&& k, T&& v):value(std::move(v)), Expression(ExpressionType::Constant, std::move(k)){};
+    ConstantExpression(const std::string& k, const T& v):value(v), Expression(ExpressionType::Constant, k){};
     const T& GetValue(const Context& context){ 
       return value; 
     }
@@ -76,10 +75,8 @@ class ConstantExpression : public Expression{
 template<typename T>
 class ParameterExpression : public Expression{
   public:
-    ParameterExpression(ExpressionType et, std::string&& k, typename DataGetterFun<T>::type&& f):fun(std::move(f)), Expression(et, std::move(k)){ 
-    };
-    ParameterExpression(ExpressionType et, const std::string& k, const typename DataGetterFun<T>::type& f):fun(f), Expression(et, k){
-    };
+    ParameterExpression(std::string&& k, const typename DataGetterFun<T>::type& f):fun(f), Expression(ExpressionType::Parameter, std::move(k)){ };
+    ParameterExpression(const std::string& k, const typename DataGetterFun<T>::type& f):fun(f), Expression(ExpressionType::Parameter, k){ };
     const T& GetValue(const Context& context){ 
       return fun(context);
     }
@@ -105,7 +102,8 @@ class UnaryExpression : public Expression{
 
 class NotExpression : public UnaryExpression{
   public:
-    using UnaryExpression::UnaryExpression;
+    NotExpression(const std::string& key, ExpSharedPtr e): UnaryExpression(ExpressionType::Not, key, e){};
+    NotExpression(std::string&& key, ExpSharedPtr e): UnaryExpression(ExpressionType::Not, std::move(key), e){};
     bool GetResult(const Context& context){
       return !(expr->GetResult(context));
     }
@@ -114,8 +112,8 @@ class NotExpression : public UnaryExpression{
 
 class BinaryExpression : public Expression{
   public:
-    BinaryExpression(ExpressionType et, const std::string& key, ExpSharedPtr l, ExpSharedPtr r): left(l), right(r), Expression(et,key){};
     BinaryExpression(ExpressionType et, std::string&& key, ExpSharedPtr l, ExpSharedPtr r): left(l), right(r), Expression(et,std::move(key)){};
+    BinaryExpression(ExpressionType et, const std::string& key, ExpSharedPtr l, ExpSharedPtr r){ BinaryExpression(et, std::string(key), l, r); }
     bool GetResult(const Context& context){
     }
     std::string Print() override {
@@ -128,7 +126,8 @@ class BinaryExpression : public Expression{
 
 class AndAlsoExpression : public BinaryExpression{
   public:
-    using BinaryExpression::BinaryExpression;
+    AndAlsoExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::AndAlso, std::move(key), l, r){};
+    AndAlsoExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::AndAlso, key, l, r){};
     bool GetResult(const Context& context){
       return left->GetResult(context) && right->GetResult(context);
     }
@@ -136,7 +135,8 @@ class AndAlsoExpression : public BinaryExpression{
 
 class OrElseExpression : public BinaryExpression{
   public:
-    using BinaryExpression::BinaryExpression;
+    OrElseExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::OrElse, std::move(key), l, r){};
+    OrElseExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::OrElse, key, l, r){};
     bool GetResult(const Context& context){
       return left->GetResult(context) || right->GetResult(context);
     }
@@ -146,11 +146,11 @@ template<typename T>
 class EqualExpression : public BinaryExpression{
   public:
     using DataType = T;
-    using BinaryExpression::BinaryExpression;
+    EqualExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Equal, std::move(key), l, r){};
+    EqualExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Equal, key, l, r){};
     bool GetResult(const Context& context){
-      auto p = dynamic_cast<ParameterExpression<T>*>(left.get());
-      const T& left_value = left->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(left.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
-      const T& right_value = right->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(right.get())->GetValue(context);
+      const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
+      const T& right_value = dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context);
       return left_value == right_value;
     }
 };
@@ -159,10 +159,11 @@ template<typename T>
 class NotEqualExpression : public BinaryExpression{
   public:
     using DataType = T;
-    using BinaryExpression::BinaryExpression;
+    NotEqualExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::NotEqual, std::move(key), l, r){};
+    NotEqualExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::NotEqual, key, l, r){};
     bool GetResult(const Context& context){
-      const T& left_value = left->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(left.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
-      const T& right_value = right->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(right.get())->GetValue(context);
+      const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
+      const T& right_value = dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context);
       return !(left_value == right_value);
     }
 };
@@ -171,10 +172,11 @@ template<typename T>
 class GreaterThanExpression : public BinaryExpression{
   public:
     using DataType = T;
-    using BinaryExpression::BinaryExpression;
+    GreaterThanExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::GreaterThan, std::move(key), l, r){};
+    GreaterThanExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::GreaterThan, key, l, r){};
     bool GetResult(const Context& context){
-      const T& left_value = left->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(left.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
-      const T& right_value = right->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(right.get())->GetValue(context);
+      const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
+      const T& right_value = dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context);
       return left_value > right_value;
     }
 };
@@ -183,10 +185,11 @@ template<typename T>
 class GreaterThanOrEqualExpression : public BinaryExpression{
   public:
     using DataType = T;
-    using BinaryExpression::BinaryExpression;
+    GreaterThanOrEqualExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::GreaterThanOrEqual, std::move(key), l, r){};
+    GreaterThanOrEqualExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::GreaterThanOrEqual, key, l, r){};
     bool GetResult(const Context& context){
-      const T& left_value = left->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(left.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
-      const T& right_value = right->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(right.get())->GetValue(context);
+      const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
+      const T& right_value = dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context);
       return !(left_value < right_value);
     }
 };
@@ -195,10 +198,11 @@ template<typename T>
 class LessThanExpression : public BinaryExpression{
   public:
     using DataType = T;
-    using BinaryExpression::BinaryExpression;
+    LessThanExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::LessThan, std::move(key), l, r){};
+    LessThanExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::LessThan, key, l, r){};
     bool GetResult(const Context& context){
-      const T& left_value = left->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(left.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
-      const T& right_value = right->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(right.get())->GetValue(context);
+      const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
+      const T& right_value = dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context);
       return left_value < right_value;
     }
 };
@@ -207,10 +211,11 @@ template<typename T>
 class LessThanOrEqualExpression : public BinaryExpression{
   public:
     using DataType = T;
-    using BinaryExpression::BinaryExpression;
+    LessThanOrEqualExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::LessThanOrEqual, std::move(key), l, r){};
+    LessThanOrEqualExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::LessThanOrEqual, key, l, r){};
     bool GetResult(const Context& context){
-      const T& left_value = left->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(left.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
-      const T& right_value = right->GetType() == ExpressionType::Constant ? dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context) : dynamic_cast<ParameterExpression<T>*>(right.get())->GetValue(context);
+      const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
+      const T& right_value = dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context);
       return !(left_value > right_value);
     }
 };
@@ -219,7 +224,8 @@ template<typename T>
 class InExpression : public BinaryExpression{
   public:
     using DataType = T;
-    using BinaryExpression::BinaryExpression;
+    InExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::In, std::move(key), l, r){};
+    InExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::In, key, l, r){};
     bool GetResult(const Context& context){
       const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
       const std::vector<T>& right_value = dynamic_cast<ConstantExpression<std::vector<T>>*>(right.get())->GetValue(context);
@@ -231,7 +237,8 @@ template<typename T>
 class NotInExpression : public BinaryExpression{
   public:
     using DataType = T;
-    using BinaryExpression::BinaryExpression;
+    NotInExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::NotIn, std::move(key), l, r){};
+    NotInExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::NotIn, key, l, r){};
     bool GetResult(const Context& context){
       const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
       const std::vector<T>& right_value = dynamic_cast<ConstantExpression<std::vector<T>>*>(right.get())->GetValue(context);

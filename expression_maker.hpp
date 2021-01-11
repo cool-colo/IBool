@@ -43,12 +43,12 @@ constexpr void for_sequence(std::integer_sequence<T, S...>, F&& f) {
 struct ExpressionMaker{
   template<typename DT>
   static Expression* MakeConstExpression(const std::string& key, const DT& data){
-    return new ConstantExpression<DT>(ExpressionType::Constant, key, data);
+    return new ConstantExpression<DT>(key, data);
   }
 
   template<typename DT>
   static Expression* MakeConstExpression(std::string&& key, DT&& data){
-    return new ConstantExpression<DT>(ExpressionType::Constant, std::move(key), std::forward<DT>(data));
+    return new ConstantExpression<DT>(std::move(key), std::forward<DT>(data));
   }
 
   template<typename DT, typename Enable = void>
@@ -68,7 +68,7 @@ struct ExpressionMaker{
   
       Container<DT> target_values;
       std::transform(values.begin(), values.end(), std::back_inserter(target_values), [](const std::string& value) { return To<DT>(std::string(value)); });
-      return ExpressionMaker::MakeConstExpression<Container<DT>>(std::move(key), target_values);
+      return ExpressionMaker::MakeConstExpression<Container<DT>>(std::move(key), std::move(target_values));
     }
   };
   
@@ -85,53 +85,50 @@ struct ExpressionMaker{
   }
 
   template<typename DT>
-  static Expression* MakeParameterExpression(std::string&& key, typename DataGetterFun<DT>::type&& f){
-    return new ParameterExpression<DT>(ExpressionType::Parameter, std::move(key), std::move(f));
+  static Expression* MakeParameterExpression(std::string&& key, const typename DataGetterFun<DT>::type& f){
+    return new ParameterExpression<DT>(std::move(key), f);
   }
   template<typename DT>
   static Expression* MakeParameterExpression(const std::string& key, const typename DataGetterFun<DT>::type& f){
-    return new ParameterExpression<DT>(ExpressionType::Parameter, key, f);
+    return new ParameterExpression<DT>(key, f);
   }
 
   template<template<typename T> class EX, typename DT>
-  static Expression* MakeRelationBinaryExpression(ExpressionType et, std::string&& key,  Expression* left, Expression* right){
-    return new EX<DT>(et, std::move(key), std::shared_ptr<Expression>{left}, std::shared_ptr<Expression>{right});
+  static Expression* MakeRelationBinaryExpression(std::string&& key,  Expression* left, Expression* right){
+    return new EX<DT>(std::move(key), std::shared_ptr<Expression>{left}, std::shared_ptr<Expression>{right});
   }
 
   template<template<typename T> class EX, typename DT>
-  static Expression* MakeRelationBinaryExpression(ExpressionType et, const typename DataGetterFun<DT>::type& f, std::string&& key,  std::string&& left, std::string&& right, bool is_array){
-    //auto* parameter_expr = MakeParameterExpression<DT>(std::move(left), f);
-    auto* parameter_expr = MakeParameterExpression<DT>(left, f);
-
-       
+  static Expression* MakeRelationBinaryExpression(const typename DataGetterFun<DT>::type& f, std::string&& key,  std::string&& left, std::string&& right, bool is_array){
+    auto* parameter_expr = MakeParameterExpression<DT>(std::move(left), f);
     auto* const_expr = MakeConstExpression<DT>(std::string(right), std::string(right), is_array);
-    return MakeRelationBinaryExpression<EX, DT>(et, std::move(key), parameter_expr, const_expr);
+    return MakeRelationBinaryExpression<EX, DT>(std::move(key), parameter_expr, const_expr);
   }
 
   template<typename EX>
-  static Expression* MakeLogicBinaryExpression(ExpressionType et, std::string&& key, Expression* left, Expression* right){
-    return new EX(et, std::move(key), std::shared_ptr<Expression>{left}, std::shared_ptr<Expression>{right});
+  static Expression* MakeLogicBinaryExpression(std::string&& key, Expression* left, Expression* right){
+    return new EX(std::move(key), std::shared_ptr<Expression>{left}, std::shared_ptr<Expression>{right});
   }
 
   template<typename EX>
-  static Expression* MakeUnaryExpression(ExpressionType et, std::string&& key, Expression* expr){
-    return new EX(et, std::move(key), std::shared_ptr<Expression>{expr});
+  static Expression* MakeUnaryExpression(std::string&& key, Expression* expr){
+    return new EX(std::move(key), std::shared_ptr<Expression>{expr});
   }
 
   
 
   static Expression* MakeAndAlsoExpression(std::string&& key, Expression* left, Expression* right){
-    return MakeLogicBinaryExpression<AndAlsoExpression>(ExpressionType::AndAlso, std::move(key), left, right);
+    return MakeLogicBinaryExpression<AndAlsoExpression>(std::move(key), left, right);
   }
   static Expression* MakeOrElseExpression(std::string&& key, Expression* left, Expression* right){
-    return MakeLogicBinaryExpression<OrElseExpression>(ExpressionType::OrElse, std::move(key), left, right);
+    return MakeLogicBinaryExpression<OrElseExpression>(std::move(key), left, right);
   }
   static Expression* MakeNotExpression(std::string&& key, Expression* expr){
-    return MakeUnaryExpression<NotExpression>(ExpressionType::Not, std::move(key), expr);
+    return MakeUnaryExpression<NotExpression>(std::move(key), expr);
   }
 
   template<template<typename> class EX>
-  static Expression* MakeRelationBinaryExpression(ExpressionType et, std::string&& key,  std::string&& left, std::string&& right, bool is_array){
+  static Expression* MakeRelationBinaryExpression(std::string&& key,  std::string&& left, std::string&& right, bool is_array){
 
     Expression* res = nullptr;
     constexpr auto nbProperties = std::tuple_size<decltype(ParameterDefine::PARAMETERS)>::value;
@@ -139,7 +136,7 @@ struct ExpressionMaker{
       constexpr auto property = std::get<i>(ParameterDefine::PARAMETERS);
       using Type = typename decltype(property)::Type;
       if (left == property.name_ && res == nullptr){
-        res = ExpressionMaker::MakeRelationBinaryExpression<EX, Type>(et, *(property.fun_), std::move(key), std::move(left), std::move(right), is_array);
+        res = ExpressionMaker::MakeRelationBinaryExpression<EX, Type>(*(property.fun_), std::move(key), std::move(left), std::move(right), is_array);
       }
     });
     if (res == nullptr){
@@ -149,28 +146,28 @@ struct ExpressionMaker{
   }
 
   static Expression* MakeEqualExpression(std::string&& key, std::string&& left, std::string&& right){
-    return MakeRelationBinaryExpression<EqualExpression>(ExpressionType::Equal, std::move(key), std::move(left), std::move(right), false);
+    return MakeRelationBinaryExpression<EqualExpression>(std::move(key), std::move(left), std::move(right), false);
   }
   static Expression* MakeNotEqualExpression(std::string&& key, std::string&& left, std::string&& right){
-    return MakeRelationBinaryExpression<NotEqualExpression>(ExpressionType::NotEqual, std::move(key), std::move(left), std::move(right), false);
+    return MakeRelationBinaryExpression<NotEqualExpression>(std::move(key), std::move(left), std::move(right), false);
   }
   static Expression* MakeGreaterThanExpression(std::string&& key, std::string&& left, std::string&& right){
-    return MakeRelationBinaryExpression<GreaterThanExpression>(ExpressionType::GreaterThan, std::move(key), std::move(left), std::move(right), false);
+    return MakeRelationBinaryExpression<GreaterThanExpression>(std::move(key), std::move(left), std::move(right), false);
   }
   static Expression* MakeGreaterThanOrEqualExpression(std::string&& key, std::string&& left, std::string&& right){
-    return MakeRelationBinaryExpression<GreaterThanOrEqualExpression>(ExpressionType::GreaterThanOrEqual, std::move(key), std::move(left), std::move(right), false);
+    return MakeRelationBinaryExpression<GreaterThanOrEqualExpression>(std::move(key), std::move(left), std::move(right), false);
   }
   static Expression* MakeLessThanExpression(std::string&& key, std::string&& left, std::string&& right){
-    return MakeRelationBinaryExpression<LessThanExpression>(ExpressionType::LessThan, std::move(key), std::move(left), std::move(right), false);
+    return MakeRelationBinaryExpression<LessThanExpression>(std::move(key), std::move(left), std::move(right), false);
   }
   static Expression* MakeLessThanOrEqualExpression(std::string&& key, std::string&& left, std::string&& right){
-    return MakeRelationBinaryExpression<LessThanOrEqualExpression>(ExpressionType::LessThanOrEqual, std::move(key), std::move(left), std::move(right), false);
+    return MakeRelationBinaryExpression<LessThanOrEqualExpression>(std::move(key), std::move(left), std::move(right), false);
   }
   static Expression* MakeInExpression(std::string&& key, std::string&& left, std::string&& right){
-    return MakeRelationBinaryExpression<InExpression>(ExpressionType::In, std::move(key), std::move(left), std::move(right), true);
+    return MakeRelationBinaryExpression<InExpression>(std::move(key), std::move(left), std::move(right), true);
   }
   static Expression* MakeNotInExpression(std::string&& key, std::string&& left, std::string&& right){
-    return MakeRelationBinaryExpression<NotInExpression>(ExpressionType::NotIn, std::move(key), std::move(left), std::move(right), true);
+    return MakeRelationBinaryExpression<NotInExpression>(std::move(key), std::move(left), std::move(right), true);
   }
 };
 
