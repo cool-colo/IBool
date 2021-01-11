@@ -4,7 +4,8 @@
 目前只支持 ==, !=(<>), <, <=, >, >=, ||, &&, in, nin, contains运算符  
 
 自定义类型比较需要重载相应操作符.  
-contains 只支持vector, set, unordered_set, list, 不支持map类容器  
+contains 只支持vector, set, unordered_set, list, 不支持map类容器.  
+没有"not contains"运算符, 请用!contains 替代.  
 
 示例:  
   srand(::time(nullptr));  
