@@ -98,12 +98,23 @@ struct ExpressionMaker{
     return new EX<DT>(std::move(key), std::shared_ptr<Expression>{left}, std::shared_ptr<Expression>{right});
   }
 
-  template<template<typename T> class EX, typename DT>
-  static Expression* MakeRelationBinaryExpression(const typename DataGetterFun<DT>::type& f, std::string&& key,  std::string&& left, std::string&& right, bool is_array){
-    auto* parameter_expr = MakeParameterExpression<DT>(std::move(left), f);
-    auto* const_expr = MakeConstExpression<DT>(std::string(right), std::string(right), is_array);
-    return MakeRelationBinaryExpression<EX, DT>(std::move(key), parameter_expr, const_expr);
-  }
+  template<template<typename> class EX, typename DT, typename Enable = void>
+  struct MakeRelationBinaryExpressionImpl{
+    static Expression* MakeRelationBinaryExpression(const typename DataGetterFun<DT>::type& f, std::string&& key,  std::string&& left, std::string&& right, bool is_array){
+      auto* parameter_expr = ExpressionMaker::MakeParameterExpression<DT>(std::move(left), f);
+      auto* const_expr = ExpressionMaker::MakeConstExpression<DT>(std::string(right), std::string(right), is_array);
+      return ExpressionMaker::MakeRelationBinaryExpression<EX, DT>(std::move(key), parameter_expr, const_expr);
+    }
+  };
+
+  template<template<typename> class EX, typename DT, typename ... ARGS, template<typename, typename ...> class Container>
+  struct MakeRelationBinaryExpressionImpl<EX, Container<DT, ARGS...>, typename std::enable_if<!std::is_same<Container<DT, ARGS...>, std::string>::value>::type>{
+    static Expression* MakeRelationBinaryExpression(const typename DataGetterFun<Container<DT, ARGS...>>::type& f, std::string&& key,  std::string&& left, std::string&& right, bool is_array){
+      auto* parameter_expr = ExpressionMaker::MakeParameterExpression<Container<DT, ARGS...>>(std::move(left), f);
+      auto* const_expr = ExpressionMaker::MakeConstExpression<DT>(std::string(right), std::string(right), is_array);
+      return ExpressionMaker::MakeRelationBinaryExpression<EX, Container<DT, ARGS...>>(std::move(key), parameter_expr, const_expr);
+    }
+  };
 
   template<typename EX>
   static Expression* MakeLogicBinaryExpression(std::string&& key, Expression* left, Expression* right){
@@ -136,7 +147,7 @@ struct ExpressionMaker{
       constexpr auto property = std::get<i>(ParameterDefine::PARAMETERS);
       using Type = typename decltype(property)::Type;
       if (left == property.name_ && res == nullptr){
-        res = ExpressionMaker::MakeRelationBinaryExpression<EX, Type>(*(property.fun_), std::move(key), std::move(left), std::move(right), is_array);
+        res = ExpressionMaker::MakeRelationBinaryExpressionImpl<EX, Type>::MakeRelationBinaryExpression(*(property.fun_), std::move(key), std::move(left), std::move(right), is_array);
       }
     });
     if (res == nullptr){
@@ -162,6 +173,9 @@ struct ExpressionMaker{
   }
   static Expression* MakeLessThanOrEqualExpression(std::string&& key, std::string&& left, std::string&& right){
     return MakeRelationBinaryExpression<LessThanOrEqualExpression>(std::move(key), std::move(left), std::move(right), false);
+  }
+  static Expression* MakeContainsExpression(std::string&& key, std::string&& left, std::string&& right){
+    return MakeRelationBinaryExpression<ContainsExpression>(std::move(key), std::move(left), std::move(right), false);
   }
   static Expression* MakeInExpression(std::string&& key, std::string&& left, std::string&& right){
     return MakeRelationBinaryExpression<InExpression>(std::move(key), std::move(left), std::move(right), true);

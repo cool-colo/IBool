@@ -2,6 +2,10 @@
 #include "expression.hpp"
 #include "string_util.hpp"
 #include <iostream>
+#include <unordered_set>
+#include <set>
+#include <list>
+#include <vector>
 #include <tuple>
 
 //自定义类型需要实现:
@@ -67,6 +71,10 @@ struct CustomContext : public Bool::Context{
   std::string src_id;
   int media_index;
   int random;
+  std::vector<std::string> tags;
+  std::unordered_set<int> loc_codes;
+  std::set<int, std::greater<int>> levels;
+  std::string taichi;
   AppVersion app_version;
   virtual ~CustomContext(){
   }
@@ -84,14 +92,35 @@ static const typename DataGetterFun<int>::type media_index_getter = [](const Boo
     const auto& custom_context = dynamic_cast<const CustomContext&>(context);
     return custom_context.media_index;
   };
+
 static const typename DataGetterFun<std::string>::type src_id_getter = [](const Bool::Context& context)->const std::string&{ 
     const auto& custom_context = dynamic_cast<const CustomContext&>(context);
     return custom_context.src_id;
   };
 
+static const typename DataGetterFun<std::string>::type taichi_getter = [](const Bool::Context& context)->const std::string&{ 
+    const auto& custom_context = dynamic_cast<const CustomContext&>(context);
+    return custom_context.taichi;
+  };
+
 static const typename DataGetterFun<int>::type random_getter = [](const Bool::Context& context)-> const int&{ 
     const auto& custom_context = dynamic_cast<const CustomContext&>(context);
     return custom_context.random;
+  };
+
+static const typename DataGetterFun<std::vector<std::string>>::type tags_getter = [](const Bool::Context& context)-> const std::vector<std::string>&{ 
+    const auto& custom_context = dynamic_cast<const CustomContext&>(context);
+    return custom_context.tags;
+  };
+
+static const typename DataGetterFun<std::unordered_set<int>>::type loc_codes_getter = [](const Bool::Context& context)-> const std::unordered_set<int>&{ 
+    const auto& custom_context = dynamic_cast<const CustomContext&>(context);
+    return custom_context.loc_codes;
+  };
+
+static const typename DataGetterFun<std::set<int, std::greater<int>>>::type levels_getter = [](const Bool::Context& context)-> const std::set<int, std::greater<int>>&{ 
+    const auto& custom_context = dynamic_cast<const CustomContext&>(context);
+    return custom_context.levels;
   };
 
 
@@ -125,6 +154,10 @@ struct ParameterDefine{
       PROPERTY(src_id, src_id_getter),
       PROPERTY(app_version, app_version_getter),
       PROPERTY(media_index, media_index_getter ),
+      PROPERTY(tags, tags_getter ),
+      PROPERTY(loc_codes, loc_codes_getter ),
+      PROPERTY(levels, levels_getter ),
+      PROPERTY(taichi, taichi_getter ),
       PROPERTY(random, random_getter )
     );
 };

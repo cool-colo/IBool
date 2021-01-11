@@ -23,6 +23,7 @@ enum ExpressionType{
   LessThanOrEqual,
   In,
   NotIn,
+  Contains,
 };
 
 struct Context{
@@ -142,7 +143,7 @@ class OrElseExpression : public BinaryExpression{
     }
 };
 
-template<typename T>
+template<typename T, typename Enable = void>
 class EqualExpression : public BinaryExpression{
   public:
     using DataType = T;
@@ -155,7 +156,18 @@ class EqualExpression : public BinaryExpression{
     }
 };
 
-template<typename T>
+template<typename T, typename ... ARGS, template<typename ...> class Container>
+class EqualExpression<Container<T, ARGS...>, typename std::enable_if<!std::is_same<Container<T>, std::string>::value>::type>  : public BinaryExpression{
+  public:
+    using DataType = Container<T, ARGS...>;
+    EqualExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Equal, std::move(key), l, r){};
+    EqualExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Equal, key, l, r){};
+    bool GetResult(const Context& context){
+      return false;
+    }
+};
+
+template<typename T, typename Enable = void>
 class NotEqualExpression : public BinaryExpression{
   public:
     using DataType = T;
@@ -168,7 +180,18 @@ class NotEqualExpression : public BinaryExpression{
     }
 };
 
-template<typename T>
+template<typename T, typename ... ARGS, template<typename ...> class Container>
+class NotEqualExpression<Container<T, ARGS...>, typename std::enable_if<!std::is_same<Container<T>, std::string>::value>::type>  : public BinaryExpression{
+  public:
+    using DataType = Container<T, ARGS...>;
+    NotEqualExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::NotEqual, std::move(key), l, r){};
+    NotEqualExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::NotEqual, key, l, r){};
+    bool GetResult(const Context& context){
+      return false;
+    }
+};
+
+template<typename T, typename Enable = void>
 class GreaterThanExpression : public BinaryExpression{
   public:
     using DataType = T;
@@ -181,7 +204,18 @@ class GreaterThanExpression : public BinaryExpression{
     }
 };
 
-template<typename T>
+template<typename T, typename ... ARGS, template<typename ...> class Container>
+class GreaterThanExpression<Container<T, ARGS...>, typename std::enable_if<!std::is_same<Container<T>, std::string>::value>::type>  : public BinaryExpression{
+  public:
+    using DataType = Container<T, ARGS...>;
+    GreaterThanExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::GreaterThan, std::move(key), l, r){};
+    GreaterThanExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::GreaterThan, key, l, r){};
+    bool GetResult(const Context& context){
+      return false;
+    }
+};
+
+template<typename T, typename Enable = void>
 class GreaterThanOrEqualExpression : public BinaryExpression{
   public:
     using DataType = T;
@@ -194,7 +228,18 @@ class GreaterThanOrEqualExpression : public BinaryExpression{
     }
 };
 
-template<typename T>
+template<typename T, typename ... ARGS, template<typename ...> class Container>
+class GreaterThanOrEqualExpression<Container<T, ARGS...>, typename std::enable_if<!std::is_same<Container<T>, std::string>::value>::type>  : public BinaryExpression{
+  public:
+    using DataType = Container<T, ARGS...>;
+    GreaterThanOrEqualExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::GreaterThanOrEqual, std::move(key), l, r){};
+    GreaterThanOrEqualExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::GreaterThanOrEqual, key, l, r){};
+    bool GetResult(const Context& context){
+      return false;
+    }
+};
+
+template<typename T, typename Enable = void>
 class LessThanExpression : public BinaryExpression{
   public:
     using DataType = T;
@@ -207,7 +252,18 @@ class LessThanExpression : public BinaryExpression{
     }
 };
 
-template<typename T>
+template<typename T, typename ... ARGS, template<typename ...> class Container>
+class LessThanExpression<Container<T, ARGS...>, typename std::enable_if<!std::is_same<Container<T>, std::string>::value>::type>  : public BinaryExpression{
+  public:
+    using DataType = Container<T, ARGS...>;
+    LessThanExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::LessThan, std::move(key), l, r){};
+    LessThanExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::LessThan, key, l, r){};
+    bool GetResult(const Context& context){
+      return false;
+    }
+};
+
+template<typename T, typename Enable = void>
 class LessThanOrEqualExpression : public BinaryExpression{
   public:
     using DataType = T;
@@ -220,7 +276,18 @@ class LessThanOrEqualExpression : public BinaryExpression{
     }
 };
 
-template<typename T>
+template<typename T, typename ... ARGS, template<typename ...> class Container>
+class LessThanOrEqualExpression<Container<T, ARGS...>, typename std::enable_if<!std::is_same<Container<T>, std::string>::value>::type>  : public BinaryExpression{
+  public:
+    using DataType = Container<T, ARGS...>;
+    LessThanOrEqualExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::LessThanOrEqual, std::move(key), l, r){};
+    LessThanOrEqualExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::LessThanOrEqual, key, l, r){};
+    bool GetResult(const Context& context){
+      return false;
+    }
+};
+
+template<typename T, typename Enable = void>
 class InExpression : public BinaryExpression{
   public:
     using DataType = T;
@@ -233,7 +300,18 @@ class InExpression : public BinaryExpression{
     }
 };
 
-template<typename T>
+template<typename T, typename ... ARGS, template<typename ...> class Container>
+class InExpression<Container<T, ARGS...>, typename std::enable_if<!std::is_same<Container<T>, std::string>::value>::type>  : public BinaryExpression{
+  public:
+    using DataType = Container<T, ARGS...>;
+    InExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::In, std::move(key), l, r){};
+    InExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::In, key, l, r){};
+    bool GetResult(const Context& context){
+      return false;
+    }
+};
+
+template<typename T, typename Enable = void>
 class NotInExpression : public BinaryExpression{
   public:
     using DataType = T;
@@ -243,6 +321,54 @@ class NotInExpression : public BinaryExpression{
       const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
       const std::vector<T>& right_value = dynamic_cast<ConstantExpression<std::vector<T>>*>(right.get())->GetValue(context);
       return std::none_of(std::begin(right_value), std::end(right_value), [&left_value](const auto& value) { return left_value == value; });
+    }
+};
+
+template<typename T, typename ... ARGS, template<typename ...> class Container>
+class NotInExpression<Container<T, ARGS...>, typename std::enable_if<!std::is_same<Container<T>, std::string>::value>::type>  : public BinaryExpression{
+  public:
+    using DataType = Container<T, ARGS...>;
+    NotInExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::NotIn, std::move(key), l, r){};
+    NotInExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::NotIn, key, l, r){};
+    bool GetResult(const Context& context){
+      return false;
+    }
+};
+
+template<typename T, typename Enable = void>
+class ContainsExpression : public BinaryExpression{
+  public:
+    using DataType = T;
+    ContainsExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Contains, std::move(key), l, r){};
+    ContainsExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Contains, key, l, r){};
+    bool GetResult(const Context& context){
+      return false;
+    }
+};
+
+template<typename T, typename ... ARGS, template<typename ...> class Container>
+class ContainsExpression<Container<T, ARGS...>> : public BinaryExpression{
+  public:
+    using DataType = T;
+    ContainsExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Contains, std::move(key), l, r){};
+    ContainsExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Contains, key, l, r){};
+    bool GetResult(const Context& context){
+      const Container<T, ARGS...>& left_value = dynamic_cast<ParameterExpression<Container<T, ARGS...>>*>(left.get())->GetValue(context);
+      const T& right_value = dynamic_cast<ConstantExpression<T>*>(right.get())->GetValue(context);
+      return std::any_of(std::begin(left_value), std::end(left_value), [&right_value](const auto& value) { return right_value == value; });
+    }
+};
+
+template<>
+class ContainsExpression<std::string> : public BinaryExpression{
+  public:
+    using DataType = std::string;
+    ContainsExpression(std::string&& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Contains, std::move(key), l, r){};
+    ContainsExpression(const std::string& key, ExpSharedPtr l, ExpSharedPtr r): BinaryExpression(ExpressionType::Contains, key, l, r){};
+    bool GetResult(const Context& context){
+      const std::string& left_value = dynamic_cast<ParameterExpression<std::string>*>(left.get())->GetValue(context);
+      const std::string& right_value = dynamic_cast<ConstantExpression<std::string>*>(right.get())->GetValue(context);
+      return left_value.find(right_value) != std::string::npos;
     }
 };
 

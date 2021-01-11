@@ -172,8 +172,9 @@ namespace Bool {
         TOKEN_RELATION_OP_LTE = 269,
         TOKEN_RELATION_OP_IN = 270,
         TOKEN_RELATION_OP_NIN = 271,
-        TOKEN_LPAREN = 272,
-        TOKEN_RPAREN = 273
+        TOKEN_RELATION_OP_CTN = 272,
+        TOKEN_LPAREN = 273,
+        TOKEN_RPAREN = 274
       };
     };
 
@@ -455,13 +456,13 @@ namespace Bool {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 31,     ///< Last index in yytable_.
+      yylast_ = 33,     ///< Last index in yytable_.
       yynnts_ = 3,  ///< Number of nonterminal symbols.
       yyempty_ = -2,
-      yyfinal_ = 16, ///< Termination state number.
+      yyfinal_ = 17, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 19  ///< Number of tokens.
+      yyntokens_ = 20  ///< Number of tokens.
     };
 
 
@@ -473,7 +474,7 @@ namespace Bool {
 
 #line 4 "parser.ypp" // lalr1.cc:372
 } // Bool
-#line 477 "parser.tab.hpp" // lalr1.cc:372
+#line 478 "parser.tab.hpp" // lalr1.cc:372
 
 
 

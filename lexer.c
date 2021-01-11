@@ -9,20 +9,22 @@
 #line 10 "lexer.c"
 static const char _Lexer_actions[] = {
 	0, 1, 0, 1, 2, 1, 3, 1, 
-	4, 1, 8, 1, 9, 1, 10, 1, 
-	11, 1, 12, 1, 13, 1, 14, 1, 
-	15, 1, 16, 1, 17, 1, 18, 1, 
-	20, 1, 21, 1, 22, 1, 23, 1, 
-	24, 1, 25, 2, 1, 19, 2, 4, 
-	5, 2, 4, 6, 2, 4, 7
+	4, 1, 9, 1, 10, 1, 11, 1, 
+	12, 1, 13, 1, 14, 1, 15, 1, 
+	16, 1, 17, 1, 18, 1, 19, 1, 
+	21, 1, 22, 1, 23, 1, 24, 1, 
+	25, 1, 26, 1, 27, 2, 1, 20, 
+	2, 4, 5, 2, 4, 6, 2, 4, 
+	7, 2, 4, 8
 };
 
 static const unsigned char _Lexer_key_offsets[] = {
 	0, 0, 1, 2, 4, 5, 14, 21, 
 	22, 26, 28, 35, 37, 43, 45, 47, 
-	49, 51, 53, 55, 56, 84, 85, 88, 
-	90, 92, 93, 100, 109, 118, 127, 136, 
-	143, 152, 161, 170, 179
+	49, 51, 53, 55, 56, 86, 87, 90, 
+	92, 94, 95, 102, 111, 120, 129, 138, 
+	147, 156, 165, 172, 181, 190, 199, 208, 
+	217, 226, 235, 244
 };
 
 static const char _Lexer_trans_keys[] = {
@@ -34,30 +36,39 @@ static const char _Lexer_trans_keys[] = {
 	93, 48, 57, 65, 97, 76, 108, 83, 
 	115, 69, 101, 82, 114, 85, 117, 124, 
 	32, 33, 34, 38, 40, 41, 60, 61, 
-	62, 70, 73, 78, 84, 91, 95, 102, 
-	105, 110, 116, 124, 9, 10, 48, 57, 
-	65, 90, 97, 122, 61, 46, 48, 57, 
-	48, 57, 61, 62, 61, 95, 48, 57, 
+	62, 67, 70, 73, 78, 84, 91, 95, 
+	99, 102, 105, 110, 116, 124, 9, 10, 
+	48, 57, 65, 90, 97, 122, 61, 46, 
+	48, 57, 48, 57, 61, 62, 61, 95, 
+	48, 57, 65, 90, 97, 122, 79, 95, 
+	111, 48, 57, 65, 90, 97, 122, 78, 
+	95, 110, 48, 57, 65, 90, 97, 122, 
+	84, 95, 116, 48, 57, 65, 90, 97, 
+	122, 65, 95, 97, 48, 57, 66, 90, 
+	98, 122, 73, 95, 105, 48, 57, 65, 
+	90, 97, 122, 78, 95, 110, 48, 57, 
+	65, 90, 97, 122, 83, 95, 115, 48, 
+	57, 65, 90, 97, 122, 95, 48, 57, 
 	65, 90, 97, 122, 65, 95, 97, 48, 
 	57, 66, 90, 98, 122, 76, 95, 108, 
 	48, 57, 65, 90, 97, 122, 83, 95, 
 	115, 48, 57, 65, 90, 97, 122, 69, 
 	95, 101, 48, 57, 65, 90, 97, 122, 
-	95, 48, 57, 65, 90, 97, 122, 78, 
-	95, 110, 48, 57, 65, 90, 97, 122, 
-	73, 95, 105, 48, 57, 65, 90, 97, 
-	122, 78, 95, 110, 48, 57, 65, 90, 
-	97, 122, 82, 95, 114, 48, 57, 65, 
-	90, 97, 122, 85, 95, 117, 48, 57, 
-	65, 90, 97, 122, 0
+	78, 95, 110, 48, 57, 65, 90, 97, 
+	122, 73, 95, 105, 48, 57, 65, 90, 
+	97, 122, 78, 95, 110, 48, 57, 65, 
+	90, 97, 122, 82, 95, 114, 48, 57, 
+	65, 90, 97, 122, 85, 95, 117, 48, 
+	57, 65, 90, 97, 122, 0
 };
 
 static const char _Lexer_single_lengths[] = {
 	0, 1, 1, 0, 1, 7, 5, 1, 
 	4, 2, 5, 0, 4, 2, 2, 2, 
-	2, 2, 2, 1, 20, 1, 1, 0, 
-	2, 1, 1, 3, 3, 3, 3, 1, 
-	3, 3, 3, 3, 3
+	2, 2, 2, 1, 22, 1, 1, 0, 
+	2, 1, 1, 3, 3, 3, 3, 3, 
+	3, 3, 1, 3, 3, 3, 3, 3, 
+	3, 3, 3, 3
 };
 
 static const char _Lexer_range_lengths[] = {
@@ -65,15 +76,17 @@ static const char _Lexer_range_lengths[] = {
 	0, 0, 1, 1, 1, 0, 0, 0, 
 	0, 0, 0, 0, 4, 0, 1, 1, 
 	0, 0, 3, 3, 3, 3, 3, 3, 
-	3, 3, 3, 3, 3
+	3, 3, 3, 3, 3, 3, 3, 3, 
+	3, 3, 3, 3
 };
 
-static const unsigned char _Lexer_index_offsets[] = {
+static const short _Lexer_index_offsets[] = {
 	0, 0, 2, 4, 6, 8, 17, 24, 
 	26, 31, 34, 41, 43, 49, 52, 55, 
-	58, 61, 64, 67, 69, 94, 96, 99, 
-	101, 104, 106, 111, 118, 125, 132, 139, 
-	144, 151, 158, 165, 172
+	58, 61, 64, 67, 69, 96, 98, 101, 
+	103, 106, 108, 113, 120, 127, 134, 141, 
+	148, 155, 162, 167, 174, 181, 188, 195, 
+	202, 209, 216, 223
 };
 
 static const char _Lexer_indicies[] = {
@@ -87,19 +100,25 @@ static const char _Lexer_indicies[] = {
 	20, 3, 12, 12, 3, 21, 21, 3, 
 	20, 20, 3, 22, 3, 23, 24, 0, 
 	25, 26, 27, 29, 30, 31, 33, 34, 
-	35, 36, 14, 32, 33, 34, 35, 36, 
-	37, 23, 28, 32, 32, 3, 39, 38, 
-	41, 28, 40, 5, 40, 43, 39, 42, 
-	45, 44, 47, 47, 47, 47, 46, 48, 
-	47, 48, 47, 47, 47, 46, 49, 47, 
-	49, 47, 47, 47, 46, 50, 47, 50, 
-	47, 47, 47, 46, 51, 47, 51, 47, 
-	47, 47, 46, 47, 47, 47, 47, 52, 
-	53, 47, 53, 47, 47, 47, 46, 54, 
-	47, 54, 47, 47, 47, 46, 55, 47, 
-	55, 47, 47, 47, 46, 56, 47, 56, 
-	47, 47, 47, 46, 50, 47, 50, 47, 
-	47, 47, 46, 0
+	35, 36, 37, 14, 32, 33, 34, 35, 
+	36, 37, 38, 23, 28, 32, 32, 3, 
+	40, 39, 42, 28, 41, 5, 41, 44, 
+	40, 43, 46, 45, 48, 48, 48, 48, 
+	47, 49, 48, 49, 48, 48, 48, 47, 
+	50, 48, 50, 48, 48, 48, 47, 51, 
+	48, 51, 48, 48, 48, 47, 52, 48, 
+	52, 48, 48, 48, 47, 53, 48, 53, 
+	48, 48, 48, 47, 54, 48, 54, 48, 
+	48, 48, 47, 56, 48, 56, 48, 48, 
+	48, 55, 48, 48, 48, 48, 57, 58, 
+	48, 58, 48, 48, 48, 47, 59, 48, 
+	59, 48, 48, 48, 47, 60, 48, 60, 
+	48, 48, 48, 47, 61, 48, 61, 48, 
+	48, 48, 47, 62, 48, 62, 48, 48, 
+	48, 47, 63, 48, 63, 48, 48, 48, 
+	47, 64, 48, 64, 48, 48, 48, 47, 
+	65, 48, 65, 48, 48, 48, 47, 60, 
+	48, 60, 48, 48, 48, 47, 0
 };
 
 static const char _Lexer_trans_targs[] = {
@@ -107,21 +126,23 @@ static const char _Lexer_trans_targs[] = {
 	7, 10, 13, 17, 8, 9, 5, 20, 
 	11, 12, 14, 15, 16, 18, 20, 20, 
 	21, 2, 20, 20, 22, 24, 4, 25, 
-	26, 27, 32, 33, 35, 19, 20, 20, 
-	20, 3, 20, 20, 20, 20, 20, 26, 
-	28, 29, 30, 31, 20, 31, 34, 31, 
-	36
+	26, 27, 35, 39, 40, 42, 19, 20, 
+	20, 20, 3, 20, 20, 20, 20, 20, 
+	26, 28, 29, 30, 31, 32, 33, 20, 
+	34, 20, 36, 37, 38, 34, 34, 41, 
+	34, 43
 };
 
 static const char _Lexer_trans_actions[] = {
-	0, 9, 13, 0, 39, 0, 17, 0, 
+	0, 9, 13, 0, 41, 0, 17, 0, 
 	0, 0, 0, 0, 0, 0, 0, 11, 
 	0, 0, 0, 0, 0, 0, 15, 29, 
 	0, 0, 25, 27, 7, 0, 0, 0, 
-	1, 1, 1, 1, 1, 0, 33, 19, 
-	31, 0, 37, 23, 35, 21, 43, 0, 
-	0, 0, 0, 46, 41, 49, 0, 52, 
-	0
+	1, 1, 1, 1, 1, 1, 0, 33, 
+	19, 31, 0, 37, 23, 35, 21, 45, 
+	0, 0, 0, 0, 0, 0, 0, 39, 
+	51, 43, 0, 0, 0, 48, 54, 0, 
+	57, 0
 };
 
 static const char _Lexer_to_state_actions[] = {
@@ -129,7 +150,8 @@ static const char _Lexer_to_state_actions[] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 3, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0
+	0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0
 };
 
 static const char _Lexer_from_state_actions[] = {
@@ -137,15 +159,17 @@ static const char _Lexer_from_state_actions[] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 5, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0
+	0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0
 };
 
-static const unsigned char _Lexer_eof_trans[] = {
+static const short _Lexer_eof_trans[] = {
 	0, 0, 0, 5, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 39, 41, 41, 
-	43, 45, 47, 47, 47, 47, 47, 53, 
-	47, 47, 47, 47, 47
+	0, 0, 0, 0, 0, 40, 42, 42, 
+	44, 46, 48, 48, 48, 48, 48, 48, 
+	48, 56, 58, 48, 48, 48, 48, 48, 
+	48, 48, 48, 48
 };
 
 static const int Lexer_start = 20;
@@ -155,7 +179,7 @@ static const int Lexer_error = 0;
 static const int Lexer_en_main = 20;
 
 
-#line 155 "lexer.rl"
+#line 162 "lexer.rl"
 
 
 Bool::Lexer::Lexer(const std::string& input):data(input), p(data.data()), pe(data.data() + data.length()), eof(data.data() + data.length()){
@@ -163,7 +187,7 @@ Bool::Lexer::Lexer(const std::string& input):data(input), p(data.data()), pe(dat
     return;
   }
   
-#line 167 "lexer.c"
+#line 191 "lexer.c"
 	{
 	cs = Lexer_start;
 	ts = 0;
@@ -171,7 +195,7 @@ Bool::Lexer::Lexer(const std::string& input):data(input), p(data.data()), pe(dat
 	act = 0;
 	}
 
-#line 162 "lexer.rl"
+#line 169 "lexer.rl"
 }
 
 
@@ -186,7 +210,7 @@ Bool::Parser::token_type Bool::Lexer::lex(Parser::semantic_type* val)
   }
 
   
-#line 190 "lexer.c"
+#line 214 "lexer.c"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -207,7 +231,7 @@ _resume:
 #line 1 "NONE"
 	{ts = p;}
 	break;
-#line 211 "lexer.c"
+#line 235 "lexer.c"
 		}
 	}
 
@@ -290,152 +314,164 @@ _eof_trans:
 	{te = p+1;}
 	break;
 	case 5:
-#line 55 "lexer.rl"
+#line 56 "lexer.rl"
 	{act = 2;}
 	break;
 	case 6:
-#line 110 "lexer.rl"
+#line 111 "lexer.rl"
 	{act = 13;}
 	break;
 	case 7:
-#line 115 "lexer.rl"
+#line 116 "lexer.rl"
 	{act = 14;}
 	break;
 	case 8:
-#line 55 "lexer.rl"
+#line 121 "lexer.rl"
+	{act = 15;}
+	break;
+	case 9:
+#line 56 "lexer.rl"
 	{te = p+1;{
     std::cout<<"CONST_VAR_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_CONST_VAR;
     {p++; goto _out; }
   }}
 	break;
-	case 9:
-#line 60 "lexer.rl"
+	case 10:
+#line 61 "lexer.rl"
 	{te = p+1;{
     std::cout<<"CONST_LIST_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_CONST_LIST;
     {p++; goto _out; }
   }}
 	break;
-	case 10:
-#line 65 "lexer.rl"
+	case 11:
+#line 66 "lexer.rl"
 	{te = p+1;{
     std::cout<<"LOGIC_OP_AND_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_LOGIC_OP_AND;
     {p++; goto _out; }
   }}
 	break;
-	case 11:
-#line 70 "lexer.rl"
+	case 12:
+#line 71 "lexer.rl"
 	{te = p+1;{
     std::cout<<"LOGIC_OP_OR_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_LOGIC_OP_OR;
     {p++; goto _out; }
   }}
 	break;
-	case 12:
-#line 80 "lexer.rl"
+	case 13:
+#line 81 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RELATION_OP_EQ_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_EQ;
     {p++; goto _out; }
   }}
 	break;
-	case 13:
-#line 85 "lexer.rl"
+	case 14:
+#line 86 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RELATION_OP_NE_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_NE;
     {p++; goto _out; }
   }}
 	break;
-	case 14:
-#line 95 "lexer.rl"
+	case 15:
+#line 96 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RELATION_OP_GTE_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_GTE;
     {p++; goto _out; }
   }}
 	break;
-	case 15:
-#line 105 "lexer.rl"
+	case 16:
+#line 106 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RELATION_OP_LTE_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_LTE;
     {p++; goto _out; }
   }}
 	break;
-	case 16:
-#line 120 "lexer.rl"
+	case 17:
+#line 126 "lexer.rl"
 	{te = p+1;{
     std::cout<<"LPAREN_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_LPAREN;
     {p++; goto _out; }
   }}
 	break;
-	case 17:
-#line 125 "lexer.rl"
+	case 18:
+#line 131 "lexer.rl"
 	{te = p+1;{
     std::cout<<"RPAREN_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RPAREN;
     {p++; goto _out; }
   }}
 	break;
-	case 18:
-#line 130 "lexer.rl"
+	case 19:
+#line 136 "lexer.rl"
 	{te = p+1;{
     //std::cout<<"SPACE_ACTION"<<std::endl;
   }}
 	break;
-	case 19:
-#line 50 "lexer.rl"
+	case 20:
+#line 51 "lexer.rl"
 	{te = p;p--;{
     std::cout<<"DYNAMIC_VAR_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_DYNAMIC_VAR;
     {p++; goto _out; }
   }}
 	break;
-	case 20:
-#line 55 "lexer.rl"
+	case 21:
+#line 56 "lexer.rl"
 	{te = p;p--;{
     std::cout<<"CONST_VAR_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_CONST_VAR;
     {p++; goto _out; }
   }}
 	break;
-	case 21:
-#line 75 "lexer.rl"
+	case 22:
+#line 76 "lexer.rl"
 	{te = p;p--;{
     std::cout<<"LOGIC_OP_NOT_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_LOGIC_OP_NOT;
     {p++; goto _out; }
   }}
 	break;
-	case 22:
-#line 90 "lexer.rl"
+	case 23:
+#line 91 "lexer.rl"
 	{te = p;p--;{
     std::cout<<"RELATION_OP_GT_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_GT;
     {p++; goto _out; }
   }}
 	break;
-	case 23:
-#line 100 "lexer.rl"
+	case 24:
+#line 101 "lexer.rl"
 	{te = p;p--;{
     std::cout<<"RELATION_OP_LT_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_LT;
     {p++; goto _out; }
   }}
 	break;
-	case 24:
-#line 55 "lexer.rl"
+	case 25:
+#line 111 "lexer.rl"
+	{te = p;p--;{
+    std::cout<<"RELATION_OP_CTN_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_RELATION_OP_CTN;
+    {p++; goto _out; }
+  }}
+	break;
+	case 26:
+#line 56 "lexer.rl"
 	{{p = ((te))-1;}{
     std::cout<<"CONST_VAR_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_CONST_VAR;
     {p++; goto _out; }
   }}
 	break;
-	case 25:
+	case 27:
 #line 1 "NONE"
 	{	switch( act ) {
 	case 2:
@@ -447,12 +483,19 @@ _eof_trans:
 	break;
 	case 13:
 	{{p = ((te))-1;}
+    std::cout<<"RELATION_OP_CTN_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_RELATION_OP_CTN;
+    {p++; goto _out; }
+  }
+	break;
+	case 14:
+	{{p = ((te))-1;}
     std::cout<<"RELATION_OP_IN_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_IN;
     {p++; goto _out; }
   }
 	break;
-	case 14:
+	case 15:
 	{{p = ((te))-1;}
     std::cout<<"RELATION_OP_NIN_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_NIN;
@@ -462,7 +505,7 @@ _eof_trans:
 	}
 	}
 	break;
-#line 466 "lexer.c"
+#line 509 "lexer.c"
 		}
 	}
 
@@ -475,7 +518,7 @@ _again:
 #line 1 "NONE"
 	{ts = 0;}
 	break;
-#line 479 "lexer.c"
+#line 522 "lexer.c"
 		}
 	}
 
@@ -495,7 +538,7 @@ _again:
 	_out: {}
 	}
 
-#line 176 "lexer.rl"
+#line 183 "lexer.rl"
 
   if (ret == Parser::token::TOKEN_END){
     const char* prefix = "syntax error:";

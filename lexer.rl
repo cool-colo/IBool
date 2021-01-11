@@ -17,7 +17,7 @@
     std::cout<<"leave_dynamic_expr:"<<std::endl;
   }
   SPACE             = [ \t];
-  KEY_WORDS         = 'in'i | 'nin'i;
+  KEY_WORDS         = 'in'i | 'nin'i | 'contains'i | 'contain'i;
 
   CONST_STR_VAR    = '"' . (any - '"')* . '"';
   INTEGER_VAR      = digit+;
@@ -38,6 +38,7 @@
   RELATION_OP_GTE  = '>=';
   RELATION_OP_LT   = '<';
   RELATION_OP_LTE  = '<=';
+  RELATION_OP_CTN  = 'contains'i | 'contain'i;
   RELATION_OP_IN   = 'in'i;
   RELATION_OP_NIN  = 'nin'i;
 
@@ -107,6 +108,11 @@
     ret = Parser::token::TOKEN_RELATION_OP_LTE;
     fbreak;
   }
+  action RELATION_OP_CTN_ACTION {
+    std::cout<<"RELATION_OP_CTN_ACTION"<<std::endl;
+    ret = Parser::token::TOKEN_RELATION_OP_CTN;
+    fbreak;
+  }
   action RELATION_OP_IN_ACTION {
     std::cout<<"RELATION_OP_IN_ACTION"<<std::endl;
     ret = Parser::token::TOKEN_RELATION_OP_IN;
@@ -145,6 +151,7 @@
     RELATION_OP_GTE => RELATION_OP_GTE_ACTION;
     RELATION_OP_LT  => RELATION_OP_LT_ACTION;
     RELATION_OP_LTE => RELATION_OP_LTE_ACTION;
+    RELATION_OP_CTN => RELATION_OP_CTN_ACTION;
     RELATION_OP_IN  => RELATION_OP_IN_ACTION;
     RELATION_OP_NIN => RELATION_OP_NIN_ACTION;
     LPAREN          => LPAREN_ACTION;

@@ -93,6 +93,36 @@ int main()
   }
 
   {
+  custom_context.tags = {"game", "30-40"};
+  custom_context.loc_codes = {110000, 110001};
+  custom_context.levels = {88, 99};
+  custom_context.taichi = "AAA,BBB,CCC";
+  std::string formular = R"(tags contains "game" && loc_codes contains 110000 && !levels contains 100 && taichi contains "AAA" && !taichi contains "AAAA")";
+  std::cout<<formular<<std::endl;
+  Bool::Lexer lexer(formular);
+  Bool::Expression* expression;
+  Bool::ASTParse parser(lexer, &expression);
+  int res = parser.parse();
+  std::cout<<"print:"<<expression->Print()<<std::endl;
+  assert(expression->GetResult(custom_context) == true);
+  }
+
+  {
+  custom_context.tags = {"game", "30-40"};
+  custom_context.loc_codes = {110000, 110001};
+  custom_context.levels = {88, 99};
+  custom_context.taichi = "AAA,BBB,CCC";
+  std::string formular = R"(tags contains "game" && loc_codes contains 110000 && !levels contains 100 && taichi contains "AAAA")";
+  std::cout<<formular<<std::endl;
+  Bool::Lexer lexer(formular);
+  Bool::Expression* expression;
+  Bool::ASTParse parser(lexer, &expression);
+  int res = parser.parse();
+  std::cout<<"print:"<<expression->Print()<<std::endl;
+  assert(expression->GetResult(custom_context) == false);
+  }
+
+  {
   std::string formular = R"(src_id == "308" && app_version == "10.6")";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
