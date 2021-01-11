@@ -76,6 +76,7 @@ struct CustomContext : public Bool::Context{
   std::set<int, std::greater<int>> levels;
   std::string taichi;
   AppVersion app_version;
+  std::vector<AppVersion> exclude_app_versions;
   virtual ~CustomContext(){
   }
 };
@@ -123,6 +124,10 @@ static const typename DataGetterFun<std::set<int, std::greater<int>>>::type leve
     return custom_context.levels;
   };
 
+static const typename DataGetterFun<std::vector<AppVersion>>::type exclude_app_versions_getter = [](const Bool::Context& context)-> const std::vector<AppVersion>&{ 
+    const auto& custom_context = dynamic_cast<const CustomContext&>(context);
+    return custom_context.exclude_app_versions;
+  };
 
 
 template<typename T>
@@ -158,6 +163,7 @@ struct ParameterDefine{
       PROPERTY(loc_codes, loc_codes_getter ),
       PROPERTY(levels, levels_getter ),
       PROPERTY(taichi, taichi_getter ),
+      PROPERTY(exclude_app_versions, exclude_app_versions_getter ),
       PROPERTY(random, random_getter )
     );
 };

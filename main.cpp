@@ -97,7 +97,8 @@ int main()
   custom_context.loc_codes = {110000, 110001};
   custom_context.levels = {88, 99};
   custom_context.taichi = "AAA,BBB,CCC";
-  std::string formular = R"(tags contains "game" && loc_codes contains 110000 && !levels contains 100 && taichi contains "AAA" && !taichi contains "AAAA")";
+  custom_context.exclude_app_versions = {AppVersion{"10.6"}, AppVersion{"10.7"}, AppVersion{"10.8"}};
+  std::string formular = R"(tags contains "game" && loc_codes contains 110000 && !levels contains 100 && taichi contains "AAA" && !taichi contains "AAAA" && exclude_app_versions contains "10.6")";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
   Bool::Expression* expression;
@@ -112,7 +113,8 @@ int main()
   custom_context.loc_codes = {110000, 110001};
   custom_context.levels = {88, 99};
   custom_context.taichi = "AAA,BBB,CCC";
-  std::string formular = R"(tags contains "game" && loc_codes contains 110000 && !levels contains 100 && taichi contains "AAAA")";
+  custom_context.exclude_app_versions = {AppVersion{"10.6"}, AppVersion{"10.7"}, AppVersion{"10.8"}};
+  std::string formular = R"(tags contains "game" && loc_codes contains 110000 && !levels contains 100 && taichi contains "AAAA" || exclude_app_versions contains "10.10")";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
   Bool::Expression* expression;
