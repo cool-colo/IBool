@@ -4,6 +4,7 @@
 目前只支持 ==, !=(<>), <, <=, >, >=, ||, &&, in, nin, contains运算符  
 
 自定义类型比较需要重载相应操作符。
+contains 只支持vector, set, unordered_set, list, 不支持map类容器  
 
 示例:  
   srand(::time(nullptr));  
