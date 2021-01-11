@@ -1,8 +1,10 @@
 # IBool
 
 根据上下文，计算布尔表达式的值。 词法分析由ragel完成，语法分析由bison完成，计算由表达式树完成。  
-目前只支持 ==, !=(<>), <, <=, >, >=, ||, && 操作符  
-自定义类型比较需要重载相应操作符。  
+目前只支持 ==, !=(<>), <, <=, >, >=, ||, &&, in, nin运算符  
+后续计划支持contains运算符
+
+自定义类型比较需要重载相应操作符。
 
 示例:  
   srand(::time(nullptr));  
@@ -15,7 +17,8 @@
 
   Bool::Context& context = custom_context;  
 
-  std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && random < 50)";  
+  std::string formular =  
+  R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && (random < 50 || !random < 50) && src_id in ["308", "309", "400" ])";  
   Bool::Lexer lexer(formular);  
   Bool::Expression* expression;  
   Bool::ASTParse parser(lexer, &expression);  
@@ -26,6 +29,7 @@
   std::cout<<"parse result:"<<res<<std::endl;  
   
 main.cpp中还增加了与sol的执行效率对比  
+存在内存泄漏
 
 参考文档:  
 https://www.gnu.org/software/bison/manual/bison.html#Bison-Parser  
