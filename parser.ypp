@@ -59,7 +59,7 @@ namespace Bool {class Expression;}
 %%
 
 input
-    : expr {*result = $1; std::cout<<"final result"<<std::endl;}
+    : expr {*result = $1;}
     ;
 
 expr

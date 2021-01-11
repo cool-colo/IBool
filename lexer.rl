@@ -128,7 +128,7 @@
     fbreak;
   }
   action SPACE_ACTION {
-    std::cout<<"SPACE_ACTION"<<std::endl;
+    //std::cout<<"SPACE_ACTION"<<std::endl;
   }
     
   main := |*
@@ -165,7 +165,6 @@ Bool::Lexer::Lexer(const std::string& input):data(input), p(data.data()), pe(dat
 
 Bool::Parser::token_type Bool::Lexer::lex(Parser::semantic_type* val)
 {
-  std::cout<<"in lexer.lex"<<std::endl;
   Parser::token_type ret = Parser::token::TOKEN_END;
 
   if (p == eof) {

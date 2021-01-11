@@ -178,7 +178,6 @@ Bool::Lexer::Lexer(const std::string& input):data(input), p(data.data()), pe(dat
 
 Bool::Parser::token_type Bool::Lexer::lex(Parser::semantic_type* val)
 {
-  std::cout<<"in lexer.lex"<<std::endl;
   Parser::token_type ret = Parser::token::TOKEN_END;
 
   if (p == eof) {
@@ -187,7 +186,7 @@ Bool::Parser::token_type Bool::Lexer::lex(Parser::semantic_type* val)
   }
 
   
-#line 191 "lexer.c"
+#line 190 "lexer.c"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -208,7 +207,7 @@ _resume:
 #line 1 "NONE"
 	{ts = p;}
 	break;
-#line 212 "lexer.c"
+#line 211 "lexer.c"
 		}
 	}
 
@@ -385,7 +384,7 @@ _eof_trans:
 	case 18:
 #line 130 "lexer.rl"
 	{te = p+1;{
-    std::cout<<"SPACE_ACTION"<<std::endl;
+    //std::cout<<"SPACE_ACTION"<<std::endl;
   }}
 	break;
 	case 19:
@@ -463,7 +462,7 @@ _eof_trans:
 	}
 	}
 	break;
-#line 467 "lexer.c"
+#line 466 "lexer.c"
 		}
 	}
 
@@ -476,7 +475,7 @@ _again:
 #line 1 "NONE"
 	{ts = 0;}
 	break;
-#line 480 "lexer.c"
+#line 479 "lexer.c"
 		}
 	}
 
@@ -496,7 +495,7 @@ _again:
 	_out: {}
 	}
 
-#line 177 "lexer.rl"
+#line 176 "lexer.rl"
 
   if (ret == Parser::token::TOKEN_END){
     const char* prefix = "syntax error:";

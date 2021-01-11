@@ -93,7 +93,7 @@ int main()
   }
 
   {
-  std::string formular = R"(src_id == "308")";
+  std::string formular = R"(src_id == "308" && app_version == "10.6")";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
   Bool::Expression* expression;

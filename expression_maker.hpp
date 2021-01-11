@@ -12,6 +12,7 @@ namespace Bool{
 template<typename T>
 struct Conv{
   static T To(std::string&& from){
+    return T{std::move(from)};
   }
 };
 template<>
@@ -27,18 +28,16 @@ struct Conv<int>{
   }
 };
 
-template<>
-struct Conv<AppVersion>{
-  static AppVersion To(std::string&& from){
-    return AppVersion{from};
-  }
-};
 
 template<typename T>
 T To(std::string&& from){
   return Conv<T>::To(std::move(from));
 }
 
+template <typename T, T... S, typename F>
+constexpr void for_sequence(std::integer_sequence<T, S...>, F&& f) {
+    (void)std::vector<bool>{(static_cast<void>(f(std::integral_constant<T, S>{})), true)...};
+}
 
 
 struct ExpressionMaker{
@@ -133,17 +132,20 @@ struct ExpressionMaker{
 
   template<template<typename> class EX>
   static Expression* MakeRelationBinaryExpression(ExpressionType et, std::string&& key,  std::string&& left, std::string&& right, bool is_array){
-      if (left == "src_id"){
-        return ExpressionMaker::MakeRelationBinaryExpression<EX, std::string>(et, src_id_getter, std::move(key), std::move(left), std::move(right), is_array);
-      } else if (left == "media_index"){
-        return ExpressionMaker::MakeRelationBinaryExpression<EX, int>(et, media_index_getter, std::move(key), std::move(left), std::move(right), is_array);
-      } else if (left == "random"){
-        return ExpressionMaker::MakeRelationBinaryExpression<EX, int>(et, random_getter, std::move(key), std::move(left), std::move(right), is_array);
-      } else if (left == "app_version"){
-        return ExpressionMaker::MakeRelationBinaryExpression<EX, AppVersion>(et, app_version_getter, std::move(key), std::move(left), std::move(right), is_array);
+
+    Expression* res = nullptr;
+    constexpr auto nbProperties = std::tuple_size<decltype(ParameterDefine::PARAMETERS)>::value;
+    for_sequence(std::make_index_sequence<nbProperties>{}, [&](auto i) {
+      constexpr auto property = std::get<i>(ParameterDefine::PARAMETERS);
+      using Type = typename decltype(property)::Type;
+      if (left == property.name_ && res == nullptr){
+        res = ExpressionMaker::MakeRelationBinaryExpression<EX, Type>(et, *(property.fun_), std::move(key), std::move(left), std::move(right), is_array);
       }
+    });
+    if (res == nullptr){
       std::cout<<"invalid parameter expression key found:"<<key<<std::endl;
-      return nullptr; 
+    }
+    return res; 
   }
 
   static Expression* MakeEqualExpression(std::string&& key, std::string&& left, std::string&& right){

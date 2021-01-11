@@ -73,7 +73,6 @@ class ConstantExpression : public Expression{
 
 
 
-
 template<typename T>
 class ParameterExpression : public Expression{
   public:
@@ -224,10 +223,6 @@ class InExpression : public BinaryExpression{
     bool GetResult(const Context& context){
       const T& left_value = dynamic_cast<ParameterExpression<T>*>(left.get())->GetValue(context);
       const std::vector<T>& right_value = dynamic_cast<ConstantExpression<std::vector<T>>*>(right.get())->GetValue(context);
-      std::cout<<"in expression get result"<<std::endl;
-      for (const auto& value : right_value){
-        //std::cout<<"value in array:"<<value<<std::endl;
-      }
       return std::any_of(std::begin(right_value), std::end(right_value), [&left_value](const auto& value) { return left_value == value; });
     }
 };

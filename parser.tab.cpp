@@ -518,7 +518,7 @@ namespace Bool {
             {
   case 2:
 #line 62 "parser.ypp" // lalr1.cc:847
-    {*result = (yystack_[0].value.expression); std::cout<<"final result"<<std::endl;}
+    {*result = (yystack_[0].value.expression);}
 #line 523 "parser.tab.cpp" // lalr1.cc:847
     break;
 
