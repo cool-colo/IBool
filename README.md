@@ -26,6 +26,7 @@
   std::cout<<"parse result:"<<res<<std::endl;  
   
 main.cpp中还增加了与sol的执行效率对比  
+存在内存泄漏
 
 参考文档:  
 https://www.gnu.org/software/bison/manual/bison.html#Bison-Parser  
