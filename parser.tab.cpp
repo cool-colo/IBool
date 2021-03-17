@@ -49,7 +49,7 @@
 
 #line 51 "parser.tab.cpp" // lalr1.cc:407
 // Unqualified %code blocks.
-#line 20 "parser.ypp" // lalr1.cc:408
+#line 21 "parser.ypp" // lalr1.cc:408
 
   #include "lexer.h"
   
@@ -125,7 +125,7 @@ namespace Bool {
 #line 126 "parser.tab.cpp" // lalr1.cc:474
 
   /// Build a parser object.
-  Parser::Parser (Bool::Lexer& lexer_yyarg, Expression** result_yyarg)
+  Parser::Parser (Bool::Lexer& lexer_yyarg, std::shared_ptr<Expression>& result_yyarg)
     :
 #if YYDEBUG
       yydebug_ (false),
@@ -517,91 +517,165 @@ namespace Bool {
           switch (yyn)
             {
   case 2:
-#line 63 "parser.ypp" // lalr1.cc:847
-    {*result = (yystack_[0].value.expression);}
+#line 64 "parser.ypp" // lalr1.cc:847
+    {result.reset((yystack_[0].value.expression));}
 #line 523 "parser.tab.cpp" // lalr1.cc:847
     break;
 
   case 3:
-#line 67 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeAndAlsoExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"AndAlso:"<<(yystack_[1].value.token)<<std::endl; }
-#line 529 "parser.tab.cpp" // lalr1.cc:847
-    break;
-
-  case 4:
 #line 68 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeOrElseExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); std::cout<<"OrElse:"<<(yystack_[1].value.token)<<std::endl; }
+    { 
+                                            (yylhs.value.expression) = ExpressionMaker::MakeAndAlsoExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); 
+                                            std::cout<<"AndAlso:"<<(yystack_[1].value.token)<<std::endl; 
+                                            if ((yylhs.value.expression) == nullptr){
+                                              throw syntax_error("failed to MakeAndAlsoExpression");
+                                            }
+                                          }
 #line 535 "parser.tab.cpp" // lalr1.cc:847
     break;
 
-  case 5:
-#line 69 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeNotExpression(std::string((yystack_[1].value.token)), (yystack_[0].value.expression));  std::cout<<"Not:"<<(yystack_[1].value.token)<<std::endl;}
-#line 541 "parser.tab.cpp" // lalr1.cc:847
-    break;
-
-  case 6:
-#line 70 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"Equal:"<<(yystack_[1].value.token)<<std::endl;}
+  case 4:
+#line 75 "parser.ypp" // lalr1.cc:847
+    { 
+                                            (yylhs.value.expression) = ExpressionMaker::MakeOrElseExpression(std::string((yystack_[1].value.token)), (yystack_[2].value.expression), (yystack_[0].value.expression)); 
+                                            std::cout<<"OrElse:"<<(yystack_[1].value.token)<<std::endl; 
+                                            if ((yylhs.value.expression) == nullptr){
+                                              throw syntax_error("failed to MakeOrElseExpression");
+                                            }
+                                          }
 #line 547 "parser.tab.cpp" // lalr1.cc:847
     break;
 
-  case 7:
-#line 71 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeNotEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"NotEqual:"<<(yystack_[1].value.token)<<std::endl; }
-#line 553 "parser.tab.cpp" // lalr1.cc:847
-    break;
-
-  case 8:
-#line 72 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeGreaterThanExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"GreaterThan:"<<(yystack_[1].value.token)<<std::endl; }
+  case 5:
+#line 82 "parser.ypp" // lalr1.cc:847
+    { 
+                                            (yylhs.value.expression) = ExpressionMaker::MakeNotExpression(std::string((yystack_[1].value.token)), (yystack_[0].value.expression));  
+                                            std::cout<<"Not:"<<(yystack_[1].value.token)<<std::endl;
+                                            if ((yylhs.value.expression) == nullptr){
+                                              throw syntax_error("failed to MakeNotExpression");
+                                            }
+                                          }
 #line 559 "parser.tab.cpp" // lalr1.cc:847
     break;
 
-  case 9:
-#line 73 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeGreaterThanOrEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"GreaterThanOrEqual:"<<(yystack_[1].value.token)<<std::endl; }
-#line 565 "parser.tab.cpp" // lalr1.cc:847
-    break;
-
-  case 10:
-#line 74 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeLessThanExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"LessThan:"<<(yystack_[1].value.token)<<std::endl; }
+  case 6:
+#line 89 "parser.ypp" // lalr1.cc:847
+    { 
+                                                                     (yylhs.value.expression) = ExpressionMaker::MakeEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); 
+                                                                     std::cout<<"Equal:"<<(yystack_[1].value.token)<<std::endl;
+                                                                     if ((yylhs.value.expression) == nullptr){
+                                                                       throw syntax_error("failed to MakeEqualExpression");
+                                                                     }
+                                                                   }
 #line 571 "parser.tab.cpp" // lalr1.cc:847
     break;
 
-  case 11:
-#line 75 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeLessThanOrEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"LessThanOrEqual:"<<(yystack_[1].value.token)<<std::endl; }
-#line 577 "parser.tab.cpp" // lalr1.cc:847
-    break;
-
-  case 12:
-#line 76 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeContainsExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"Contains:"<<(yystack_[1].value.token)<<std::endl; }
+  case 7:
+#line 96 "parser.ypp" // lalr1.cc:847
+    {
+                                                                     (yylhs.value.expression) = ExpressionMaker::MakeNotEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); 
+                                                                     std::cout<<"NotEqual:"<<(yystack_[1].value.token)<<std::endl; 
+                                                                     if ((yylhs.value.expression) == nullptr){
+                                                                       throw syntax_error("failed to MakeNotEqualExpression");
+                                                                     }
+                                                                   }
 #line 583 "parser.tab.cpp" // lalr1.cc:847
     break;
 
-  case 13:
-#line 77 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeInExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"In:"<<(yystack_[1].value.token)<<std::endl; }
-#line 589 "parser.tab.cpp" // lalr1.cc:847
-    break;
-
-  case 14:
-#line 78 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = ExpressionMaker::MakeNotInExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); std::cout<<"NotIn:"<<(yystack_[1].value.token)<<std::endl; }
+  case 8:
+#line 103 "parser.ypp" // lalr1.cc:847
+    { 
+                                                                     (yylhs.value.expression) = ExpressionMaker::MakeGreaterThanExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); 
+                                                                     std::cout<<"GreaterThan:"<<(yystack_[1].value.token)<<std::endl;
+                                                                     if ((yylhs.value.expression) == nullptr){
+                                                                       throw syntax_error("failed to MakeGreaterThanExpression");
+                                                                     }
+                                                                   }
 #line 595 "parser.tab.cpp" // lalr1.cc:847
     break;
 
+  case 9:
+#line 110 "parser.ypp" // lalr1.cc:847
+    { 
+                                                                     (yylhs.value.expression) = ExpressionMaker::MakeGreaterThanOrEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); 
+                                                                     std::cout<<"GreaterThanOrEqual:"<<(yystack_[1].value.token)<<std::endl;
+                                                                     if ((yylhs.value.expression) == nullptr){
+                                                                       throw syntax_error("failed to MakeGreaterThanOrEqualExpression");
+                                                                     }
+                                                                   }
+#line 607 "parser.tab.cpp" // lalr1.cc:847
+    break;
+
+  case 10:
+#line 117 "parser.ypp" // lalr1.cc:847
+    { 
+                                                                     (yylhs.value.expression) = ExpressionMaker::MakeLessThanExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); 
+                                                                     std::cout<<"LessThan:"<<(yystack_[1].value.token)<<std::endl;
+                                                                     if ((yylhs.value.expression) == nullptr){
+                                                                       throw syntax_error("failed to MakeLessThanExpression");
+                                                                     }
+                                                                   }
+#line 619 "parser.tab.cpp" // lalr1.cc:847
+    break;
+
+  case 11:
+#line 124 "parser.ypp" // lalr1.cc:847
+    { 
+                                                                     (yylhs.value.expression) = ExpressionMaker::MakeLessThanOrEqualExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); 
+                                                                     std::cout<<"LessThanOrEqual:"<<(yystack_[1].value.token)<<std::endl;
+                                                                     if ((yylhs.value.expression) == nullptr){
+                                                                       throw syntax_error("failed to MakeLessThanOrEqualExpression");
+                                                                     }
+                                                                   }
+#line 631 "parser.tab.cpp" // lalr1.cc:847
+    break;
+
+  case 12:
+#line 131 "parser.ypp" // lalr1.cc:847
+    { 
+                                                                     (yylhs.value.expression) = ExpressionMaker::MakeContainsExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); 
+                                                                     std::cout<<"Contains:"<<(yystack_[1].value.token)<<std::endl;
+                                                                     if ((yylhs.value.expression) == nullptr){
+                                                                       throw syntax_error("failed to MakeContainsExpression");
+                                                                     }
+                                                                   }
+#line 643 "parser.tab.cpp" // lalr1.cc:847
+    break;
+
+  case 13:
+#line 138 "parser.ypp" // lalr1.cc:847
+    { 
+                                                                     (yylhs.value.expression) = ExpressionMaker::MakeInExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); 
+                                                                     std::cout<<"In:"<<(yystack_[1].value.token)<<std::endl;
+                                                                     if ((yylhs.value.expression) == nullptr){
+                                                                       throw syntax_error("failed to MakeInExpression");
+                                                                     }
+                                                                   }
+#line 655 "parser.tab.cpp" // lalr1.cc:847
+    break;
+
+  case 14:
+#line 145 "parser.ypp" // lalr1.cc:847
+    { 
+                                                                     (yylhs.value.expression) = ExpressionMaker::MakeNotInExpression(std::string((yystack_[1].value.token)), std::string((yystack_[2].value.token)), std::string((yystack_[0].value.token))); 
+                                                                     std::cout<<"NotIn:"<<(yystack_[1].value.token)<<std::endl;
+                                                                     if ((yylhs.value.expression) == nullptr){
+                                                                       throw syntax_error("failed to MakeNotInExpression");
+                                                                     }
+                                                                   }
+#line 667 "parser.tab.cpp" // lalr1.cc:847
+    break;
+
   case 15:
-#line 79 "parser.ypp" // lalr1.cc:847
-    { (yylhs.value.expression) = (yystack_[1].value.expression); }
-#line 601 "parser.tab.cpp" // lalr1.cc:847
+#line 152 "parser.ypp" // lalr1.cc:847
+    { 
+                                            (yylhs.value.expression) = (yystack_[1].value.expression); 
+                                          }
+#line 675 "parser.tab.cpp" // lalr1.cc:847
     break;
 
 
-#line 605 "parser.tab.cpp" // lalr1.cc:847
+#line 679 "parser.tab.cpp" // lalr1.cc:847
             default:
               break;
             }
@@ -858,8 +932,8 @@ namespace Bool {
   const unsigned char
   Parser::yyrline_[] =
   {
-       0,    63,    63,    67,    68,    69,    70,    71,    72,    73,
-      74,    75,    76,    77,    78,    79
+       0,    64,    64,    68,    75,    82,    89,    96,   103,   110,
+     117,   124,   131,   138,   145,   152
   };
 
   // Print the state stack on the debug stream.
@@ -942,8 +1016,8 @@ namespace Bool {
 
 #line 4 "parser.ypp" // lalr1.cc:1155
 } // Bool
-#line 946 "parser.tab.cpp" // lalr1.cc:1155
-#line 83 "parser.ypp" // lalr1.cc:1156
+#line 1020 "parser.tab.cpp" // lalr1.cc:1155
+#line 158 "parser.ypp" // lalr1.cc:1156
 
 
 void yyerror (char const *s)

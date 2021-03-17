@@ -43,6 +43,7 @@
 #line 7 "parser.ypp" // lalr1.cc:372
  
 #include <iostream>
+#include <memory>
 #include <string>
 #include "string_util.hpp"
 #include "expression.hpp"
@@ -50,7 +51,7 @@
 namespace Bool {class Lexer;}
 namespace Bool {class Expression;}
 
-#line 54 "parser.tab.hpp" // lalr1.cc:372
+#line 55 "parser.tab.hpp" // lalr1.cc:372
 
 
 # include <vector>
@@ -121,7 +122,7 @@ namespace Bool {class Expression;}
 
 #line 4 "parser.ypp" // lalr1.cc:372
 namespace Bool {
-#line 125 "parser.tab.hpp" // lalr1.cc:372
+#line 126 "parser.tab.hpp" // lalr1.cc:372
 
 
 
@@ -135,12 +136,12 @@ namespace Bool {
     /// Symbol semantic values.
     union semantic_type
     {
-    #line 26 "parser.ypp" // lalr1.cc:372
+    #line 27 "parser.ypp" // lalr1.cc:372
 
     char* token;
     Expression* expression;
 
-#line 144 "parser.tab.hpp" // lalr1.cc:372
+#line 145 "parser.tab.hpp" // lalr1.cc:372
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -262,7 +263,7 @@ namespace Bool {
 
 
     /// Build a parser object.
-    Parser (Bool::Lexer& lexer_yyarg, Expression** result_yyarg);
+    Parser (Bool::Lexer& lexer_yyarg, std::shared_ptr<Expression>& result_yyarg);
     virtual ~Parser ();
 
     /// Parse.
@@ -468,13 +469,13 @@ namespace Bool {
 
     // User arguments.
     Bool::Lexer& lexer;
-    Expression** result;
+    std::shared_ptr<Expression>& result;
   };
 
 
 #line 4 "parser.ypp" // lalr1.cc:372
 } // Bool
-#line 478 "parser.tab.hpp" // lalr1.cc:372
+#line 479 "parser.tab.hpp" // lalr1.cc:372
 
 
 

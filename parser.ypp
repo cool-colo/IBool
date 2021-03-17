@@ -6,6 +6,7 @@
 
 %code requires { 
 #include <iostream>
+#include <memory>
 #include <string>
 #include "string_util.hpp"
 #include "expression.hpp"
@@ -15,7 +16,7 @@ namespace Bool {class Expression;}
 }
 
 %parse-param {Bool::Lexer& lexer}
-%parse-param {Expression** result}
+%parse-param {std::shared_ptr<Expression>& result}
 
 %code {
   #include "lexer.h"
@@ -60,23 +61,97 @@ namespace Bool {class Expression;}
 %%
 
 input
-    : expr {*result = $1;}
+    : expr {result.reset($1);}
     ;
 
 expr
-    : expr TOKEN_LOGIC_OP_AND expr        { $$ = ExpressionMaker::MakeAndAlsoExpression(std::string($2), $1, $3); std::cout<<"AndAlso:"<<$2<<std::endl; }
-    | expr TOKEN_LOGIC_OP_OR expr         { $$ = ExpressionMaker::MakeOrElseExpression(std::string($2), $1, $3); std::cout<<"OrElse:"<<$2<<std::endl; }
-    | TOKEN_LOGIC_OP_NOT expr             { $$ = ExpressionMaker::MakeNotExpression(std::string($1), $2);  std::cout<<"Not:"<<$1<<std::endl;}
-    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_EQ TOKEN_CONST_VAR       { $$ = ExpressionMaker::MakeEqualExpression(std::string($2), std::string($1), std::string($3)); std::cout<<"Equal:"<<$2<<std::endl;}
-    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_NE TOKEN_CONST_VAR       { $$ = ExpressionMaker::MakeNotEqualExpression(std::string($2), std::string($1), std::string($3)); std::cout<<"NotEqual:"<<$2<<std::endl; }
-    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_GT TOKEN_CONST_VAR       { $$ = ExpressionMaker::MakeGreaterThanExpression(std::string($2), std::string($1), std::string($3)); std::cout<<"GreaterThan:"<<$2<<std::endl; }
-    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_GTE TOKEN_CONST_VAR      { $$ = ExpressionMaker::MakeGreaterThanOrEqualExpression(std::string($2), std::string($1), std::string($3)); std::cout<<"GreaterThanOrEqual:"<<$2<<std::endl; }
-    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_LT TOKEN_CONST_VAR       { $$ = ExpressionMaker::MakeLessThanExpression(std::string($2), std::string($1), std::string($3)); std::cout<<"LessThan:"<<$2<<std::endl; }
-    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_LTE TOKEN_CONST_VAR      { $$ = ExpressionMaker::MakeLessThanOrEqualExpression(std::string($2), std::string($1), std::string($3)); std::cout<<"LessThanOrEqual:"<<$2<<std::endl; }
-    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_CTN TOKEN_CONST_VAR      { $$ = ExpressionMaker::MakeContainsExpression(std::string($2), std::string($1), std::string($3)); std::cout<<"Contains:"<<$2<<std::endl; }
-    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_IN TOKEN_CONST_LIST      { $$ = ExpressionMaker::MakeInExpression(std::string($2), std::string($1), std::string($3)); std::cout<<"In:"<<$2<<std::endl; }
-    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_NIN TOKEN_CONST_LIST     { $$ = ExpressionMaker::MakeNotInExpression(std::string($2), std::string($1), std::string($3)); std::cout<<"NotIn:"<<$2<<std::endl; }
-    | TOKEN_LPAREN expr TOKEN_RPAREN      { $$ = $2; }
+    : expr TOKEN_LOGIC_OP_AND expr        { 
+                                            $$ = ExpressionMaker::MakeAndAlsoExpression(std::string($2), $1, $3); 
+                                            std::cout<<"AndAlso:"<<$2<<std::endl; 
+                                            if ($$ == nullptr){
+                                              throw syntax_error("failed to MakeAndAlsoExpression");
+                                            }
+                                          }
+    | expr TOKEN_LOGIC_OP_OR expr         { 
+                                            $$ = ExpressionMaker::MakeOrElseExpression(std::string($2), $1, $3); 
+                                            std::cout<<"OrElse:"<<$2<<std::endl; 
+                                            if ($$ == nullptr){
+                                              throw syntax_error("failed to MakeOrElseExpression");
+                                            }
+                                          }
+    | TOKEN_LOGIC_OP_NOT expr             { 
+                                            $$ = ExpressionMaker::MakeNotExpression(std::string($1), $2);  
+                                            std::cout<<"Not:"<<$1<<std::endl;
+                                            if ($$ == nullptr){
+                                              throw syntax_error("failed to MakeNotExpression");
+                                            }
+                                          }
+    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_EQ TOKEN_CONST_VAR       { 
+                                                                     $$ = ExpressionMaker::MakeEqualExpression(std::string($2), std::string($1), std::string($3)); 
+                                                                     std::cout<<"Equal:"<<$2<<std::endl;
+                                                                     if ($$ == nullptr){
+                                                                       throw syntax_error("failed to MakeEqualExpression");
+                                                                     }
+                                                                   }
+    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_NE TOKEN_CONST_VAR       {
+                                                                     $$ = ExpressionMaker::MakeNotEqualExpression(std::string($2), std::string($1), std::string($3)); 
+                                                                     std::cout<<"NotEqual:"<<$2<<std::endl; 
+                                                                     if ($$ == nullptr){
+                                                                       throw syntax_error("failed to MakeNotEqualExpression");
+                                                                     }
+                                                                   }
+    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_GT TOKEN_CONST_VAR       { 
+                                                                     $$ = ExpressionMaker::MakeGreaterThanExpression(std::string($2), std::string($1), std::string($3)); 
+                                                                     std::cout<<"GreaterThan:"<<$2<<std::endl;
+                                                                     if ($$ == nullptr){
+                                                                       throw syntax_error("failed to MakeGreaterThanExpression");
+                                                                     }
+                                                                   }
+    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_GTE TOKEN_CONST_VAR      { 
+                                                                     $$ = ExpressionMaker::MakeGreaterThanOrEqualExpression(std::string($2), std::string($1), std::string($3)); 
+                                                                     std::cout<<"GreaterThanOrEqual:"<<$2<<std::endl;
+                                                                     if ($$ == nullptr){
+                                                                       throw syntax_error("failed to MakeGreaterThanOrEqualExpression");
+                                                                     }
+                                                                   }
+    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_LT TOKEN_CONST_VAR       { 
+                                                                     $$ = ExpressionMaker::MakeLessThanExpression(std::string($2), std::string($1), std::string($3)); 
+                                                                     std::cout<<"LessThan:"<<$2<<std::endl;
+                                                                     if ($$ == nullptr){
+                                                                       throw syntax_error("failed to MakeLessThanExpression");
+                                                                     }
+                                                                   }
+    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_LTE TOKEN_CONST_VAR      { 
+                                                                     $$ = ExpressionMaker::MakeLessThanOrEqualExpression(std::string($2), std::string($1), std::string($3)); 
+                                                                     std::cout<<"LessThanOrEqual:"<<$2<<std::endl;
+                                                                     if ($$ == nullptr){
+                                                                       throw syntax_error("failed to MakeLessThanOrEqualExpression");
+                                                                     }
+                                                                   }
+    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_CTN TOKEN_CONST_VAR      { 
+                                                                     $$ = ExpressionMaker::MakeContainsExpression(std::string($2), std::string($1), std::string($3)); 
+                                                                     std::cout<<"Contains:"<<$2<<std::endl;
+                                                                     if ($$ == nullptr){
+                                                                       throw syntax_error("failed to MakeContainsExpression");
+                                                                     }
+                                                                   }
+    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_IN TOKEN_CONST_LIST      { 
+                                                                     $$ = ExpressionMaker::MakeInExpression(std::string($2), std::string($1), std::string($3)); 
+                                                                     std::cout<<"In:"<<$2<<std::endl;
+                                                                     if ($$ == nullptr){
+                                                                       throw syntax_error("failed to MakeInExpression");
+                                                                     }
+                                                                   }
+    | TOKEN_DYNAMIC_VAR TOKEN_RELATION_OP_NIN TOKEN_CONST_LIST     { 
+                                                                     $$ = ExpressionMaker::MakeNotInExpression(std::string($2), std::string($1), std::string($3)); 
+                                                                     std::cout<<"NotIn:"<<$2<<std::endl;
+                                                                     if ($$ == nullptr){
+                                                                       throw syntax_error("failed to MakeNotInExpression");
+                                                                     }
+                                                                   }
+    | TOKEN_LPAREN expr TOKEN_RPAREN      { 
+                                            $$ = $2; 
+                                          }
 
     
 	

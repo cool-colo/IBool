@@ -63,8 +63,8 @@ int main()
   std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && (random < 50 || !random < 50) && src_id in ["309", "400" ])";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
-  Bool::Expression* expression;
-  Bool::ASTParse parser(lexer, &expression);
+  std::shared_ptr<Bool::Expression> expression;
+  Bool::ASTParse parser(lexer, expression);
   int res = parser.parse();
   std::cout<<"print:"<<expression->Print()<<std::endl;
   assert(expression->GetResult(custom_context) == false);
@@ -74,8 +74,8 @@ int main()
   std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && (random < 50 || !random < 50) && src_id in ["308", "309", "400" ])";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
-  Bool::Expression* expression;
-  Bool::ASTParse parser(lexer, &expression);
+  std::shared_ptr<Bool::Expression> expression;
+  Bool::ASTParse parser(lexer, expression);
   int res = parser.parse();
   std::cout<<"print:"<<expression->Print()<<std::endl;
   assert(expression->GetResult(custom_context) == true);
@@ -85,8 +85,8 @@ int main()
   std::string formular = R"(media_index == 30 && (src_id == "308" || app_version == "10.5") && (random < 50 || !random < 50) || src_id in ["309", "400" ])";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
-  Bool::Expression* expression;
-  Bool::ASTParse parser(lexer, &expression);
+  std::shared_ptr<Bool::Expression> expression;
+  Bool::ASTParse parser(lexer, expression);
   int res = parser.parse();
   std::cout<<"print:"<<expression->Print()<<std::endl;
   assert(expression->GetResult(custom_context) == true);
@@ -101,8 +101,8 @@ int main()
   std::string formular = R"(tags contains "game" && loc_codes contains 110000 && !levels contains 100 && taichi contains "AAA" && !taichi contains "AAAA" && exclude_app_versions contains "10.6")";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
-  Bool::Expression* expression;
-  Bool::ASTParse parser(lexer, &expression);
+  std::shared_ptr<Bool::Expression> expression;
+  Bool::ASTParse parser(lexer, expression);
   int res = parser.parse();
   std::cout<<"print:"<<expression->Print()<<std::endl;
   assert(expression->GetResult(custom_context) == true);
@@ -117,22 +117,27 @@ int main()
   std::string formular = R"(tags contains "game" && loc_codes contains 110000 && !levels contains 100 && taichi contains "AAAA" || exclude_app_versions contains "10.10")";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
-  Bool::Expression* expression;
-  Bool::ASTParse parser(lexer, &expression);
+  std::shared_ptr<Bool::Expression> expression;
+  Bool::ASTParse parser(lexer, expression);
   int res = parser.parse();
   std::cout<<"print:"<<expression->Print()<<std::endl;
   assert(expression->GetResult(custom_context) == false);
   }
 
   {
-  std::string formular = R"(src_id == "308" && app_version == "10.6")";
+  std::string formular = R"(src_id2 == "308" && app_version == "10.6")";
   std::cout<<formular<<std::endl;
   Bool::Lexer lexer(formular);
-  Bool::Expression* expression;
-  Bool::ASTParse parser(lexer, &expression);
+  std::shared_ptr<Bool::Expression> expression;
+  Bool::ASTParse parser(lexer, expression);
   int res = parser.parse();
-  std::cout<<"print:"<<expression->Print()<<std::endl;
-  assert(expression->GetResult(custom_context) == true);
+  if (res != 0){
+    std::cout<<"formular:"<<formular<<" parse error"<<std::endl;
+  }
+  else {
+    std::cout<<"print:"<<expression->Print()<<std::endl;
+  }
+  //assert(expression->GetResult(custom_context) == true);
   }
 
 /*
