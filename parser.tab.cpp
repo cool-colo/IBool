@@ -1017,7 +1017,7 @@ namespace Bool {
 #line 4 "parser.ypp" // lalr1.cc:1155
 } // Bool
 #line 1020 "parser.tab.cpp" // lalr1.cc:1155
-#line 158 "parser.ypp" // lalr1.cc:1156
+#line 156 "parser.ypp" // lalr1.cc:1156
 
 
 void yyerror (char const *s)

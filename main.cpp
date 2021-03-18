@@ -131,6 +131,7 @@ int main()
   std::shared_ptr<Bool::Expression> expression;
   Bool::ASTParse parser(lexer, expression);
   int res = parser.parse();
+  assert(res != 0);
   if (res != 0){
     std::cout<<"formular:"<<formular<<" parse error"<<std::endl;
   }

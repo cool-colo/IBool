@@ -153,8 +153,6 @@ expr
                                             $$ = $2; 
                                           }
 
-    
-	
 %%
 
 void yyerror (char const *s)

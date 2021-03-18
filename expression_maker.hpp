@@ -58,7 +58,7 @@ struct ExpressionMaker{
     }
   };
 
-  template<template<typename> class Container, typename DT>
+  template<template<typename...> class Container, typename DT>
   struct MakeConstExpressionImpl<Container<DT>, typename std::enable_if<!std::is_same<Container<DT>, std::string>::value>::type>{
     static Expression* MakeConstExpression(std::string&& key, std::string&& value){
       std::string trimed_value = StringUtil::Trim(value, " []");
@@ -98,7 +98,7 @@ struct ExpressionMaker{
     return new EX<DT>(std::move(key), std::shared_ptr<Expression>{left}, std::shared_ptr<Expression>{right});
   }
 
-  template<template<typename> class EX, typename DT, typename Enable = void>
+  template<template<typename...> class EX, typename DT, typename Enable = void>
   struct MakeRelationBinaryExpressionImpl{
     static Expression* MakeRelationBinaryExpression(const typename DataGetterFun<DT>::type& f, std::string&& key,  std::string&& left, std::string&& right, bool is_array){
       auto* parameter_expr = ExpressionMaker::MakeParameterExpression<DT>(std::move(left), f);
@@ -107,7 +107,7 @@ struct ExpressionMaker{
     }
   };
 
-  template<template<typename> class EX, typename DT, typename ... ARGS, template<typename, typename ...> class Container>
+  template<template<typename...> class EX, typename DT, typename ... ARGS, template<typename, typename ...> class Container>
   struct MakeRelationBinaryExpressionImpl<EX, Container<DT, ARGS...>, typename std::enable_if<!std::is_same<Container<DT, ARGS...>, std::string>::value>::type>{
     static Expression* MakeRelationBinaryExpression(const typename DataGetterFun<Container<DT, ARGS...>>::type& f, std::string&& key,  std::string&& left, std::string&& right, bool is_array){
       auto* parameter_expr = ExpressionMaker::MakeParameterExpression<Container<DT, ARGS...>>(std::move(left), f);
@@ -138,7 +138,7 @@ struct ExpressionMaker{
     return MakeUnaryExpression<NotExpression>(std::move(key), expr);
   }
 
-  template<template<typename> class EX>
+  template<template<typename...> class EX>
   static Expression* MakeRelationBinaryExpression(std::string&& key,  std::string&& left, std::string&& right, bool is_array){
 
     Expression* res = nullptr;

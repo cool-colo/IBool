@@ -6,7 +6,7 @@
 
 
 
-#line 10 "lexer.c"
+#line 10 "lexer.cpp"
 static const char _Lexer_actions[] = {
 	0, 1, 0, 1, 2, 1, 3, 1, 
 	4, 1, 9, 1, 10, 1, 11, 1, 
@@ -187,7 +187,7 @@ Bool::Lexer::Lexer(const std::string& input):data(input), p(data.data()), pe(dat
     return;
   }
   
-#line 191 "lexer.c"
+#line 191 "lexer.cpp"
 	{
 	cs = Lexer_start;
 	ts = 0;
@@ -210,7 +210,7 @@ Bool::Parser::token_type Bool::Lexer::lex(Parser::semantic_type* val)
   }
 
   
-#line 214 "lexer.c"
+#line 214 "lexer.cpp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -231,7 +231,7 @@ _resume:
 #line 1 "NONE"
 	{ts = p;}
 	break;
-#line 235 "lexer.c"
+#line 235 "lexer.cpp"
 		}
 	}
 
@@ -505,7 +505,7 @@ _eof_trans:
 	}
 	}
 	break;
-#line 509 "lexer.c"
+#line 509 "lexer.cpp"
 		}
 	}
 
@@ -518,7 +518,7 @@ _again:
 #line 1 "NONE"
 	{ts = 0;}
 	break;
-#line 522 "lexer.c"
+#line 522 "lexer.cpp"
 		}
 	}
 
